@@ -1,0 +1,1572 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Chestionar pentru pacientele cu cancer de san, in vederea reconstructiei mamare.">
+<title>Chestionar reconstrucție mamară</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;padding:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<style>
+/* Layout: one scrolling column of question blocks grouped by clinical theme,
+   a sticky progress bar, and an export that prints the filled record. */
+:root{
+  --bg:#F3F4F7; --surface:#FFFFFF; --surface-2:#FAFBFC;
+  --ink:#1A1C2B; --muted:#5F667C; --line:#D9DCE6; --on-accent:#FFFFFF;
+  --accent:#5B3A7E; --accent-ink:#5B3A7E; --accent-soft:#EFE8F6;
+  --band:#4A2E68; --on-band:#FFFFFF; --on-band-mute:#D6C7E6;
+  --alert:#A33A32; --alert-bg:#FBEDEB; --alert-line:#E8C4BF;
+  --ok:#2E6B5E; --ok-soft:#E3F1ED; --ok-line:#BEDCD3;
+  --font-head:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12121C; --surface:#1C1C2A; --surface-2:#222232;
+  --ink:#E8E9F2; --muted:#9A A2B8; --line:#32334A; --on-accent:#12121C;
+  --accent:#B79BDA; --accent-ink:#C9B4E8; --accent-soft:#272039;
+  --band:#241A36; --on-band:#E8E9F2; --on-band-mute:#A595BE;
+  --alert:#F0A197; --alert-bg:#2B1715; --alert-line:#4A2825;
+  --ok:#7FC9B4; --ok-soft:#14271F; --ok-line:#27463E;
+  color-scheme:dark;
+}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--muted:#9AA2B8}}
+:root[data-theme="dark"]{
+  --bg:#12121C; --surface:#1C1C2A; --surface-2:#222232;
+  --ink:#E8E9F2; --muted:#9AA2B8; --line:#32334A; --on-accent:#12121C;
+  --accent:#B79BDA; --accent-ink:#C9B4E8; --accent-soft:#272039;
+  --band:#241A36; --on-band:#E8E9F2; --on-band-mute:#A595BE;
+  --alert:#F0A197; --alert-bg:#2B1715; --alert-line:#4A2825;
+  --ok:#7FC9B4; --ok-soft:#14271F; --ok-line:#27463E;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:var(--font-body); font-size:15px; line-height:1.5;
+  -webkit-text-size-adjust:100%;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--band)}
+
+.wrap{
+  max-width:660px; margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 52px;
+}
+
+.masthead{background:var(--band);color:var(--on-band)}
+.masthead .wrap{padding-block:22px 20px}
+.masthead h1{
+  font-family:var(--font-head);font-weight:600;font-size:1.5rem;
+  margin:0 0 6px;line-height:1.2;text-wrap:balance;color:var(--on-band);
+}
+.masthead p{margin:0;font-size:.875rem;line-height:1.45;color:var(--on-band-mute)}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:10px;padding-block:9px}
+.count{
+  font-family:var(--font-mono);font-size:.8125rem;font-variant-numeric:tabular-nums;
+  background:var(--accent-soft);color:var(--accent-ink);padding:4px 9px;border-radius:999px;white-space:nowrap;
+}
+.bar .spacer{flex:1;min-width:0}
+.linkbtn{
+  background:none;border:1px solid var(--line);color:var(--ink);
+  font:500 .8125rem/1 var(--font-body);padding:8px 11px;border-radius:999px;cursor:pointer;
+}
+.linkbtn:active{background:var(--surface-2)}
+
+.intro{margin-top:14px;font-size:.875rem;color:var(--muted);border-left:3px solid var(--accent);padding:2px 0 2px 12px}
+.privacy{
+  margin-top:12px;background:var(--ok-soft);border:1px solid var(--ok-line);border-radius:var(--r);
+  padding:11px 12px;font-size:.8125rem;line-height:1.5;color:var(--ink);
+}
+
+section{margin-top:28px}
+.shead{display:flex;align-items:baseline;gap:9px;margin-bottom:3px}
+.snum{font-family:var(--font-mono);font-size:.75rem;color:var(--accent-ink);background:var(--accent-soft);border-radius:5px;padding:2px 7px;flex:none}
+.shead h2{font-family:var(--font-head);font-weight:600;font-size:1.0625rem;margin:0;line-height:1.25;text-wrap:balance;min-width:0}
+.ssub{font-size:.8125rem;color:var(--muted);margin:0 0 12px 0}
+
+/* question block */
+.qa{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:13px 14px;margin-top:9px;
+}
+.qlabel{font-weight:600;font-size:.9375rem;line-height:1.35;display:block;margin-bottom:3px}
+.qhint{font-size:.8125rem;color:var(--muted);display:block;margin:-1px 0 9px;line-height:1.45}
+.qa.answered{border-left:3px solid var(--accent);padding-left:11px}
+
+/* free text */
+.inp{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+.inp label{font-size:.75rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:500}
+input[type=text],input[type=date],input[type=number],input[type=tel],input[type=email],textarea{
+  width:100%;font:400 1rem/1.35 var(--font-body);color:var(--ink);
+  background:var(--surface-2);border:1px solid var(--line);border-radius:8px;
+  padding:11px 12px;min-height:44px;
+}
+textarea{min-height:76px;resize:vertical}
+input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.pair{display:flex;gap:9px;flex-wrap:wrap}
+.pair .inp{flex:1 1 130px;min-width:0}
+
+/* options */
+.opts{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.opts.inline{flex-direction:row;flex-wrap:wrap}
+.opts.inline .opt{flex:1 1 120px;min-width:0}
+.opt{
+  display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:9px;
+  padding:10px 11px;cursor:pointer;-webkit-tap-highlight-color:transparent;
+}
+.opt input{position:absolute;opacity:0;width:0;height:0}
+.obox{width:24px;height:24px;border:2px solid var(--line);background:var(--surface);flex:none;position:relative;margin-top:0}
+.obox.sq{border-radius:6px}
+.obox.rd{border-radius:50%}
+.opt input:checked + .obox{border-color:var(--accent)}
+.opt input:checked + .obox.sq{background:var(--accent)}
+.obox.sq::after{
+  content:"";position:absolute;left:7px;top:2px;width:6px;height:12px;
+  border:solid var(--on-accent);border-width:0 2.5px 2.5px 0;
+  transform:rotate(42deg) scale(.4);opacity:0;transition:opacity .12s,transform .12s;
+}
+.obox.rd::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .12s}
+.opt input:checked + .obox::after{opacity:1;transform:rotate(42deg) scale(1)}
+.opt input:checked + .obox.rd::after{transform:none}
+.otext{min-width:0;display:block}
+.otitle{font-size:.9375rem;line-height:1.3;display:block}
+.obody{font-size:.8125rem;color:var(--muted);margin-top:2px;display:block}
+.opt input:focus-visible + .obox{outline:2px solid var(--accent);outline-offset:2px}
+
+.note{
+  margin:9px 0 0;font-size:.8125rem;color:var(--ink);background:var(--accent-soft);
+  border:1px solid var(--line);border-radius:var(--r);padding:11px 12px;line-height:1.5;
+}
+.calc{
+  margin-top:9px;font-family:var(--font-mono);font-size:.8125rem;
+  background:var(--surface-2);border:1px dashed var(--line);border-radius:8px;padding:9px 11px;color:var(--muted);
+}
+.calc b{color:var(--ink);font-weight:500}
+
+details.why{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
+details.why summary{font-size:.8125rem;color:var(--accent-ink);cursor:pointer;list-style:none;padding:4px 0;min-height:30px;display:flex;align-items:center;gap:6px;font-weight:500}
+details.why summary::-webkit-details-marker{display:none}
+details.why summary::before{content:"+";font-family:var(--font-mono);font-size:.9375rem}
+details.why[open] summary::before{content:"\2212"}
+details.why p{margin:2px 0 4px;font-size:.8125rem;color:var(--muted);line-height:1.5}
+
+/* summary */
+.summary{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:15px;margin-top:14px}
+.summary h3{font-family:var(--font-head);font-weight:600;font-size:1rem;margin:0 0 4px}
+.sumgroup{margin-top:12px}
+.sumgroup h4{font-size:.75rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:0 0 5px;font-weight:600}
+.sumgroup dl{margin:0}
+.sumgroup dt{font-size:.75rem;color:var(--muted);margin-top:6px}
+.sumgroup dd{margin:0;font-size:.875rem}
+.empty{font-size:.875rem;color:var(--muted);margin:8px 0 0}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.btn{
+  font:600 .875rem/1 var(--font-body);padding:13px 16px;border-radius:9px;
+  border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);
+  cursor:pointer;min-height:46px;flex:1 1 auto;
+}
+.btn.ghost{background:none;color:var(--ink);border-color:var(--line)}
+.btn:active{opacity:.85}
+.toast{font-size:.8125rem;color:var(--ok);margin-top:9px;min-height:18px}
+.hint{font-size:.75rem;color:var(--muted);margin:6px 0 0;line-height:1.45}
+.inlinebtn{background:none;border:0;padding:0;color:var(--accent-ink);font:inherit;text-decoration:underline;cursor:pointer}
+#pdfout{margin-top:14px}
+#pdfout .pv{border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:10px;background:#fff;display:block;width:100%}
+#pdfout .pvnote{font-size:.8125rem;color:var(--ink);background:var(--ok-soft);border:1px solid var(--ok-line);border-radius:var(--r);padding:11px 12px;line-height:1.5}
+
+.disclaimer{
+  background:var(--alert-bg);border:1px solid var(--alert-line);border-radius:var(--r);
+  padding:13px;margin-top:22px;font-size:.8125rem;line-height:1.5;color:var(--alert);
+}
+.disclaimer b{font-weight:600}
+.foot{font-size:.75rem;color:var(--muted);margin-top:16px;line-height:1.5}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="masthead"><div class="wrap">
+  <h1>Chestionar pentru reconstrucția mamară</h1>
+  <p>Informațiile de mai jos ajută la alegerea tipului de reconstrucție și a momentului potrivit. Completați cât puteți; ce nu știți lăsați necompletat.</p>
+</div></header>
+
+<div class="bar"><div class="wrap">
+  <span class="count" id="count">0 răspunsuri</span>
+  <span class="spacer"></span>
+  <button class="linkbtn" id="toSummary" type="button">Vezi rezumatul</button>
+</div></div>
+
+<main class="wrap">
+
+  <p class="intro">Răspundeți cât de exact puteți. Dacă aveți documentele medicale la îndemână — biletul de externare, buletinul histopatologic, fișa de radioterapie — luați datele de acolo. Nu e nevoie să completați totul dintr-o dată: răspunsurile se salvează singure pe telefonul dumneavoastră.</p>
+
+  <p class="privacy">Datele rămân pe dispozitivul dumneavoastră, în acest browser. Nu se trimit nicăieri și nimeni altcineva nu le poate vedea. La final generați un PDF pe care îl trimiteți singură medicului.</p>
+
+<section>
+<div class="shead"><span class="snum">A</span><h2>Date de contact</h2></div>
+<p class="ssub">Ca să vă putem contacta și să atașăm formularul la dosarul dumneavoastră.</p>
+<div class="qa" data-label="Nume și prenume">
+<span class="qlabel">Nume și prenume</span>
+<div class="inp"><label for="nume">Nume complet</label>
+<input type="text" id="nume" autocomplete="name">
+</div>
+</div>
+<div class="qa" data-label="Data nașterii">
+<span class="qlabel">Data nașterii</span>
+<div class="inp"><label for="datan">Ziua / luna / anul</label>
+<input type="date" id="datan">
+</div>
+</div>
+<div class="qa" data-label="Date de contact">
+<span class="qlabel">Date de contact</span>
+<div class="pair">
+<div class="inp"><label for="telefon">Telefon</label>
+<input type="tel" id="telefon" autocomplete="tel">
+</div>
+<div class="inp"><label for="email">E-mail</label>
+<input type="email" id="email" autocomplete="email">
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="shead"><span class="snum">1</span><h2>Diagnosticul</h2></div>
+<p class="ssub">Momentul și forma de debut a bolii.</p>
+<div class="qa" data-label="Când ați fost diagnosticată">
+<span class="qlabel">Când ați fost diagnosticată</span>
+<span class="qhint">Data de pe primul rezultat de biopsie. Dacă nu știți ziua exactă, alegeți prima zi a lunii.</span>
+<div class="inp"><label for="data_diagnostic">Data diagnosticului</label>
+<input type="date" id="data_diagnostic">
+</div>
+</div>
+<div class="qa" data-label="Care sân este afectat">
+<span class="qlabel">Care sân este afectat</span>
+<div class="opts inline">
+<label class="opt" for="san_o0"><input type="radio" id="san_o0" name="san"><span class="obox rd"></span><span class="otext"><span class="otitle">Sânul drept</span></span></label>
+<label class="opt" for="san_o1"><input type="radio" id="san_o1" name="san"><span class="obox rd"></span><span class="otext"><span class="otitle">Sânul stâng</span></span></label>
+<label class="opt" for="san_o2"><input type="radio" id="san_o2" name="san"><span class="obox rd"></span><span class="otext"><span class="otitle">Ambii sâni</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Unde era localizată tumora în sân">
+<span class="qlabel">Unde era localizată tumora în sân</span>
+<span class="qhint">Dacă nu știți, lăsați necompletat — vom verifica pe imagistică.</span>
+<div class="opts">
+<label class="opt" for="loc_o0"><input type="radio" id="loc_o0" name="loc"><span class="obox rd"></span><span class="otext"><span class="otitle">Cadranul supero-extern</span><span class="obody">sus, spre axilă</span></span></label>
+<label class="opt" for="loc_o1"><input type="radio" id="loc_o1" name="loc"><span class="obox rd"></span><span class="otext"><span class="otitle">Cadranul supero-intern</span><span class="obody">sus, spre stern</span></span></label>
+<label class="opt" for="loc_o2"><input type="radio" id="loc_o2" name="loc"><span class="obox rd"></span><span class="otext"><span class="otitle">Cadranul infero-extern</span><span class="obody">jos, spre axilă</span></span></label>
+<label class="opt" for="loc_o3"><input type="radio" id="loc_o3" name="loc"><span class="obox rd"></span><span class="otext"><span class="otitle">Cadranul infero-intern</span><span class="obody">jos, spre stern</span></span></label>
+<label class="opt" for="loc_o4"><input type="radio" id="loc_o4" name="loc"><span class="obox rd"></span><span class="otext"><span class="otitle">Central / retroareolar</span><span class="obody">în spatele mamelonului</span></span></label>
+<label class="opt" for="loc_o5"><input type="radio" id="loc_o5" name="loc"><span class="obox rd"></span><span class="otext"><span class="otitle">Mai multe zone în același sân</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Dimensiunea tumorii la diagnostic">
+<span class="qlabel">Dimensiunea tumorii la diagnostic</span>
+<span class="qhint">Așa cum apare pe ecografie, mamografie sau RMN, în milimetri.</span>
+<div class="inp"><label for="dim_initiala">Milimetri</label>
+<input type="number" id="dim_initiala" placeholder="ex. 22">
+</div>
+</div>
+<div class="qa" data-label="Stadiul bolii la diagnostic">
+<span class="qlabel">Stadiul bolii la diagnostic</span>
+<span class="qhint">Dacă îl cunoașteți din documentele medicale.</span>
+<div class="opts inline">
+<label class="opt" for="stadiu_o0"><input type="radio" id="stadiu_o0" name="stadiu"><span class="obox rd"></span><span class="otext"><span class="otitle">Stadiul 0</span></span></label>
+<label class="opt" for="stadiu_o1"><input type="radio" id="stadiu_o1" name="stadiu"><span class="obox rd"></span><span class="otext"><span class="otitle">Stadiul I</span></span></label>
+<label class="opt" for="stadiu_o2"><input type="radio" id="stadiu_o2" name="stadiu"><span class="obox rd"></span><span class="otext"><span class="otitle">Stadiul II</span></span></label>
+<label class="opt" for="stadiu_o3"><input type="radio" id="stadiu_o3" name="stadiu"><span class="obox rd"></span><span class="otext"><span class="otitle">Stadiul III</span></span></label>
+<label class="opt" for="stadiu_o4"><input type="radio" id="stadiu_o4" name="stadiu"><span class="obox rd"></span><span class="otext"><span class="otitle">Stadiul IV</span></span></label>
+<label class="opt" for="stadiu_o5"><input type="radio" id="stadiu_o5" name="stadiu"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+</div>
+</section>
+<section>
+<div class="shead"><span class="snum">2</span><h2>Operația la sân</h2></div>
+<p class="ssub">Aceasta este informația care decide dacă discutăm o reconstrucție imediată, în aceeași operație cu mastectomia, sau una întârziată.</p>
+<div class="qa" data-label="Ați fost deja operată la sân pentru acest cancer?">
+<span class="qlabel">Ați fost deja operată la sân pentru acest cancer?</span>
+<div class="opts inline">
+<label class="opt" for="op_da"><input type="radio" id="op_da" name="operata"><span class="obox rd"></span><span class="otext"><span class="otitle">Da, am fost operată</span></span></label>
+<label class="opt" for="op_nu"><input type="radio" id="op_nu" name="operata"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu, încă nu</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Data operației la sân" data-when="op_da">
+<span class="qlabel">Data operației la sân</span>
+<div class="inp"><label for="data_operatie">Data intervenției</label>
+<input type="date" id="data_operatie">
+</div>
+</div>
+<div class="qa" data-label="Ce tip de operație ați avut" data-when="op_da">
+<span class="qlabel">Ce tip de operație ați avut</span>
+<div class="opts">
+<label class="opt" for="tip_op_o0"><input type="radio" id="tip_op_o0" name="tip_op"><span class="obox rd"></span><span class="otext"><span class="otitle">Sectorectomie / lumpectomie</span><span class="obody">s-a scos doar tumora, sânul a fost păstrat</span></span></label>
+<label class="opt" for="tip_op_o1"><input type="radio" id="tip_op_o1" name="tip_op"><span class="obox rd"></span><span class="otext"><span class="otitle">Mastectomie simplă sau radicală modificată</span><span class="obody">s-a scos tot sânul, inclusiv pielea și mamelonul</span></span></label>
+<label class="opt" for="tip_op_o2"><input type="radio" id="tip_op_o2" name="tip_op"><span class="obox rd"></span><span class="otext"><span class="otitle">Mastectomie cu păstrarea pielii</span><span class="obody">skin-sparing: s-a păstrat învelișul de piele</span></span></label>
+<label class="opt" for="tip_op_o3"><input type="radio" id="tip_op_o3" name="tip_op"><span class="obox rd"></span><span class="otext"><span class="otitle">Mastectomie cu păstrarea mamelonului</span><span class="obody">nipple-sparing: s-au păstrat pielea și mamelonul</span></span></label>
+<label class="opt" for="tip_op_o4"><input type="radio" id="tip_op_o4" name="tip_op"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu exact ce tip</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Ați avut complicații după operație?" data-when="op_da">
+<span class="qlabel">Ați avut complicații după operație?</span>
+<div class="opts">
+<label class="opt" for="compl_o0"><input type="checkbox" id="compl_o0" name="compl"><span class="obox sq"></span><span class="otext"><span class="otitle">Nu am avut complicații</span></span></label>
+<label class="opt" for="compl_o1"><input type="checkbox" id="compl_o1" name="compl"><span class="obox sq"></span><span class="otext"><span class="otitle">Infecție a plăgii</span></span></label>
+<label class="opt" for="compl_o2"><input type="checkbox" id="compl_o2" name="compl"><span class="obox sq"></span><span class="otext"><span class="otitle">Deschiderea plăgii (dehiscență)</span></span></label>
+<label class="opt" for="compl_o3"><input type="checkbox" id="compl_o3" name="compl"><span class="obox sq"></span><span class="otext"><span class="otitle">Necroză de piele</span><span class="obody">o porțiune de piele s-a înnegrit și a trebuit îndepărtată</span></span></label>
+<label class="opt" for="compl_o4"><input type="checkbox" id="compl_o4" name="compl"><span class="obox sq"></span><span class="otext"><span class="otitle">Seroame repetate</span><span class="obody">acumulări de lichid care au necesitat puncții</span></span></label>
+<label class="opt" for="compl_o5"><input type="checkbox" id="compl_o5" name="compl"><span class="obox sq"></span><span class="otext"><span class="otitle">Hematom sau sângerare</span></span></label>
+<label class="opt" for="compl_o6"><input type="checkbox" id="compl_o6" name="compl"><span class="obox sq"></span><span class="otext"><span class="otitle">Vindecare foarte lentă</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="S-a început deja vreo reconstrucție?" data-when="op_da">
+<span class="qlabel">S-a început deja vreo reconstrucție?</span>
+<div class="opts">
+<label class="opt" for="recon_ant_o0"><input type="radio" id="recon_ant_o0" name="recon_ant"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu, nicio reconstrucție</span></span></label>
+<label class="opt" for="recon_ant_o1"><input type="radio" id="recon_ant_o1" name="recon_ant"><span class="obox rd"></span><span class="otext"><span class="otitle">Da, am un expander tisular</span></span></label>
+<label class="opt" for="recon_ant_o2"><input type="radio" id="recon_ant_o2" name="recon_ant"><span class="obox rd"></span><span class="otext"><span class="otitle">Da, am un implant definitiv</span></span></label>
+<label class="opt" for="recon_ant_o3"><input type="radio" id="recon_ant_o3" name="recon_ant"><span class="obox rd"></span><span class="otext"><span class="otitle">Da, cu țesut propriu (lambou)</span></span></label>
+<label class="opt" for="recon_ant_o4"><input type="radio" id="recon_ant_o4" name="recon_ant"><span class="obox rd"></span><span class="otext"><span class="otitle">S-a început, dar a eșuat sau a fost îndepărtată</span></span></label>
+</div>
+<div class="inp"><label for="recon_det">Detalii, dacă e cazul</label>
+<input type="text" id="recon_det">
+</div>
+</div>
+<div class="qa" data-label="Operația este deja programată?" data-when="op_nu">
+<span class="qlabel">Operația este deja programată?</span>
+<div class="opts inline">
+<label class="opt" for="op_prog_o0"><input type="radio" id="op_prog_o0" name="op_prog"><span class="obox rd"></span><span class="otext"><span class="otitle">Da, am dată</span></span></label>
+<label class="opt" for="op_prog_o1"><input type="radio" id="op_prog_o1" name="op_prog"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu încă</span></span></label>
+</div>
+<div class="inp"><label for="data_op_prog">Data programată</label>
+<input type="date" id="data_op_prog">
+</div>
+</div>
+<div class="qa" data-label="Ce tip de operație v-a propus chirurgul oncolog" data-when="op_nu">
+<span class="qlabel">Ce tip de operație v-a propus chirurgul oncolog</span>
+<div class="opts">
+<label class="opt" for="tip_prog_o0"><input type="radio" id="tip_prog_o0" name="tip_prog"><span class="obox rd"></span><span class="otext"><span class="otitle">Sectorectomie / lumpectomie</span><span class="obody">păstrarea sânului</span></span></label>
+<label class="opt" for="tip_prog_o1"><input type="radio" id="tip_prog_o1" name="tip_prog"><span class="obox rd"></span><span class="otext"><span class="otitle">Mastectomie cu păstrarea mamelonului</span><span class="obody">nipple-sparing</span></span></label>
+<label class="opt" for="tip_prog_o2"><input type="radio" id="tip_prog_o2" name="tip_prog"><span class="obox rd"></span><span class="otext"><span class="otitle">Mastectomie cu păstrarea pielii</span><span class="obody">skin-sparing</span></span></label>
+<label class="opt" for="tip_prog_o3"><input type="radio" id="tip_prog_o3" name="tip_prog"><span class="obox rd"></span><span class="otext"><span class="otitle">Mastectomie clasică</span></span></label>
+<label class="opt" for="tip_prog_o4"><input type="radio" id="tip_prog_o4" name="tip_prog"><span class="obox rd"></span><span class="otext"><span class="otitle">Mastectomie bilaterală</span></span></label>
+<label class="opt" for="tip_prog_o5"><input type="radio" id="tip_prog_o5" name="tip_prog"><span class="obox rd"></span><span class="otext"><span class="otitle">Încă nu s-a decis</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Vi s-a spus că veți avea nevoie de radioterapie după operație?" data-when="op_nu">
+<span class="qlabel">Vi s-a spus că veți avea nevoie de radioterapie după operație?</span>
+<span class="qhint">Răspunsul schimbă mult planul: radioterapia pe un sân deja reconstruit cu implant crește riscul de contractură și de pierdere a implantului.</span>
+<div class="opts inline">
+<label class="opt" for="rt_prev_o0"><input type="radio" id="rt_prev_o0" name="rt_prev"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+<label class="opt" for="rt_prev_o1"><input type="radio" id="rt_prev_o1" name="rt_prev"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="rt_prev_o2"><input type="radio" id="rt_prev_o2" name="rt_prev"><span class="obox rd"></span><span class="otext"><span class="otitle">Încă nu se știe</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Ați avut vreodată operații la celălalt sân?">
+<span class="qlabel">Ați avut vreodată operații la celălalt sân?</span>
+<div class="opts">
+<label class="opt" for="contralat_o0"><input type="checkbox" id="contralat_o0" name="contralat"><span class="obox sq"></span><span class="otext"><span class="otitle">Nu, niciodată</span></span></label>
+<label class="opt" for="contralat_o1"><input type="checkbox" id="contralat_o1" name="contralat"><span class="obox sq"></span><span class="otext"><span class="otitle">Micșorare (reducție mamară)</span></span></label>
+<label class="opt" for="contralat_o2"><input type="checkbox" id="contralat_o2" name="contralat"><span class="obox sq"></span><span class="otext"><span class="otitle">Mărire cu implant</span></span></label>
+<label class="opt" for="contralat_o3"><input type="checkbox" id="contralat_o3" name="contralat"><span class="obox sq"></span><span class="otext"><span class="otitle">Ridicare (mastopexie)</span></span></label>
+<label class="opt" for="contralat_o4"><input type="checkbox" id="contralat_o4" name="contralat"><span class="obox sq"></span><span class="otext"><span class="otitle">Mastectomie profilactică</span></span></label>
+<label class="opt" for="contralat_o5"><input type="checkbox" id="contralat_o5" name="contralat"><span class="obox sq"></span><span class="otext"><span class="otitle">Biopsie chirurgicală sau nodul benign scos</span></span></label>
+</div>
+</div>
+</section>
+<section>
+<div class="shead"><span class="snum">3</span><h2>Ganglionii din axilă</h2></div>
+<p class="ssub">Starea ganglionilor influențează radioterapia, riscul de limfedem și alegerea lamboului.</p>
+<div class="qa" data-label="Ați avut biopsia ganglionului santinelă?">
+<span class="qlabel">Ați avut biopsia ganglionului santinelă?</span>
+<div class="opts inline">
+<label class="opt" for="santinela_o0"><input type="radio" id="santinela_o0" name="santinela"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+<label class="opt" for="santinela_o1"><input type="radio" id="santinela_o1" name="santinela"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="santinela_o2"><input type="radio" id="santinela_o2" name="santinela"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+<div class="inp"><label for="data_santinela">Data, dacă o știți</label>
+<input type="date" id="data_santinela">
+</div>
+</div>
+<div class="qa" data-label="Ați avut evidare ganglionară axilară?">
+<span class="qlabel">Ați avut evidare ganglionară axilară?</span>
+<span class="qhint">Numită și limfadenectomie axilară: s-au scos mai mulți ganglioni din axilă, nu doar ganglionul santinelă.</span>
+<div class="opts inline">
+<label class="opt" for="ev_da"><input type="radio" id="ev_da" name="evidare"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+<label class="opt" for="ev_nu"><input type="radio" id="ev_nu" name="evidare"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="ev_nu_stiu"><input type="radio" id="ev_nu_stiu" name="evidare"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Câți ganglioni au fost scoși și câți erau pozitivi" data-when="ev_da|ev_nu_stiu">
+<span class="qlabel">Câți ganglioni au fost scoși și câți erau pozitivi</span>
+<span class="qhint">Scrie în buletinul histopatologic, sub forma „3/14” — adică 3 pozitivi din 14 examinați.</span>
+<div class="pair">
+<div class="inp"><label for="gg_total">Ganglioni examinați</label>
+<input type="number" id="gg_total" placeholder="ex. 14">
+</div>
+<div class="inp"><label for="gg_poz">Dintre care pozitivi</label>
+<input type="number" id="gg_poz" placeholder="ex. 3">
+</div>
+</div>
+</div>
+<div class="qa" data-label="Aveți umflarea brațului de partea operată (limfedem)?">
+<span class="qlabel">Aveți umflarea brațului de partea operată (limfedem)?</span>
+<div class="opts inline">
+<label class="opt" for="limfedem_o0"><input type="radio" id="limfedem_o0" name="limfedem"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="limfedem_o1"><input type="radio" id="limfedem_o1" name="limfedem"><span class="obox rd"></span><span class="otext"><span class="otitle">Ușor</span></span></label>
+<label class="opt" for="limfedem_o2"><input type="radio" id="limfedem_o2" name="limfedem"><span class="obox rd"></span><span class="otext"><span class="otitle">Moderat</span></span></label>
+<label class="opt" for="limfedem_o3"><input type="radio" id="limfedem_o3" name="limfedem"><span class="obox rd"></span><span class="otext"><span class="otitle">Important</span></span></label>
+</div>
+</div>
+</section>
+<section>
+<div class="shead"><span class="snum">4</span><h2>Rezultatul histopatologic și imunohistochimia</h2></div>
+<p class="ssub">Copiați datele de pe buletinul histopatologic. Dacă aveți documentul, aduceți-l la consultație — e cel mai important act din dosar.</p>
+<div class="qa" data-label="Tipul histologic">
+<span class="qlabel">Tipul histologic</span>
+<div class="opts">
+<label class="opt" for="hp_tip_o0"><input type="radio" id="hp_tip_o0" name="hp_tip"><span class="obox rd"></span><span class="otext"><span class="otitle">Carcinom ductal invaziv (NST)</span><span class="obody">cel mai frecvent tip</span></span></label>
+<label class="opt" for="hp_tip_o1"><input type="radio" id="hp_tip_o1" name="hp_tip"><span class="obox rd"></span><span class="otext"><span class="otitle">Carcinom lobular invaziv</span></span></label>
+<label class="opt" for="hp_tip_o2"><input type="radio" id="hp_tip_o2" name="hp_tip"><span class="obox rd"></span><span class="otext"><span class="otitle">Carcinom ductal in situ (DCIS) pur</span><span class="obody">fără componentă invazivă</span></span></label>
+<label class="opt" for="hp_tip_o3"><input type="radio" id="hp_tip_o3" name="hp_tip"><span class="obox rd"></span><span class="otext"><span class="otitle">Formă mixtă, ductal și lobular</span></span></label>
+<label class="opt" for="hp_tip_o4"><input type="radio" id="hp_tip_o4" name="hp_tip"><span class="obox rd"></span><span class="otext"><span class="otitle">Alt tip</span><span class="obody">mucinos, tubular, medular, papilar</span></span></label>
+<label class="opt" for="hp_tip_o5"><input type="radio" id="hp_tip_o5" name="hp_tip"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Gradul tumoral">
+<span class="qlabel">Gradul tumoral</span>
+<div class="opts inline">
+<label class="opt" for="hp_grad_o0"><input type="radio" id="hp_grad_o0" name="hp_grad"><span class="obox rd"></span><span class="otext"><span class="otitle">G1</span></span></label>
+<label class="opt" for="hp_grad_o1"><input type="radio" id="hp_grad_o1" name="hp_grad"><span class="obox rd"></span><span class="otext"><span class="otitle">G2</span></span></label>
+<label class="opt" for="hp_grad_o2"><input type="radio" id="hp_grad_o2" name="hp_grad"><span class="obox rd"></span><span class="otext"><span class="otitle">G3</span></span></label>
+<label class="opt" for="hp_grad_o3"><input type="radio" id="hp_grad_o3" name="hp_grad"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Receptorii hormonali — estrogen (ER) și progesteron (PR)">
+<span class="qlabel">Receptorii hormonali — estrogen (ER) și progesteron (PR)</span>
+<span class="qhint">Se notează în procente sau ca pozitiv / negativ.</span>
+<div class="opts">
+<label class="opt" for="ihc_er_o0"><input type="radio" id="ihc_er_o0" name="ihc_er"><span class="obox rd"></span><span class="otext"><span class="otitle">Ambii pozitivi</span></span></label>
+<label class="opt" for="ihc_er_o1"><input type="radio" id="ihc_er_o1" name="ihc_er"><span class="obox rd"></span><span class="otext"><span class="otitle">Doar ER pozitiv</span></span></label>
+<label class="opt" for="ihc_er_o2"><input type="radio" id="ihc_er_o2" name="ihc_er"><span class="obox rd"></span><span class="otext"><span class="otitle">Doar PR pozitiv</span></span></label>
+<label class="opt" for="ihc_er_o3"><input type="radio" id="ihc_er_o3" name="ihc_er"><span class="obox rd"></span><span class="otext"><span class="otitle">Ambii negativi</span></span></label>
+<label class="opt" for="ihc_er_o4"><input type="radio" id="ihc_er_o4" name="ihc_er"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+<div class="pair">
+<div class="inp"><label for="er_val">ER (%)</label>
+<input type="text" id="er_val" placeholder="ex. 90%">
+</div>
+<div class="inp"><label for="pr_val">PR (%)</label>
+<input type="text" id="pr_val" placeholder="ex. 60%">
+</div>
+</div>
+</div>
+<div class="qa" data-label="HER2">
+<span class="qlabel">HER2</span>
+<div class="opts inline">
+<label class="opt" for="ihc_her2_o0"><input type="radio" id="ihc_her2_o0" name="ihc_her2"><span class="obox rd"></span><span class="otext"><span class="otitle">Negativ (0 sau 1+)</span></span></label>
+<label class="opt" for="ihc_her2_o1"><input type="radio" id="ihc_her2_o1" name="ihc_her2"><span class="obox rd"></span><span class="otext"><span class="otitle">Echivoc (2+)</span></span></label>
+<label class="opt" for="ihc_her2_o2"><input type="radio" id="ihc_her2_o2" name="ihc_her2"><span class="obox rd"></span><span class="otext"><span class="otitle">Pozitiv (3+)</span></span></label>
+<label class="opt" for="ihc_her2_o3"><input type="radio" id="ihc_her2_o3" name="ihc_her2"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+<div class="inp"><label for="her2_fish">Rezultat FISH, dacă s-a făcut</label>
+<input type="text" id="her2_fish" placeholder="amplificat / neamplificat">
+</div>
+</div>
+<div class="qa" data-label="Indicele Ki-67">
+<span class="qlabel">Indicele Ki-67</span>
+<div class="inp"><label for="ki67">Procent</label>
+<input type="text" id="ki67" placeholder="ex. 25%">
+</div>
+</div>
+<div class="qa" data-label="Dacă ați făcut chimioterapie înainte de operație, care a fost răspunsul">
+<span class="qlabel">Dacă ați făcut chimioterapie înainte de operație, care a fost răspunsul</span>
+<div class="opts">
+<label class="opt" for="raspuns_neo_o0"><input type="radio" id="raspuns_neo_o0" name="raspuns_neo"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu am făcut chimioterapie înainte de operație</span></span></label>
+<label class="opt" for="raspuns_neo_o1"><input type="radio" id="raspuns_neo_o1" name="raspuns_neo"><span class="obox rd"></span><span class="otext"><span class="otitle">Răspuns complet</span><span class="obody">nu s-a mai găsit tumoră la examenul histopatologic</span></span></label>
+<label class="opt" for="raspuns_neo_o2"><input type="radio" id="raspuns_neo_o2" name="raspuns_neo"><span class="obox rd"></span><span class="otext"><span class="otitle">Răspuns parțial</span><span class="obody">tumora s-a micșorat</span></span></label>
+<label class="opt" for="raspuns_neo_o3"><input type="radio" id="raspuns_neo_o3" name="raspuns_neo"><span class="obox rd"></span><span class="otext"><span class="otitle">Boală reziduală importantă</span></span></label>
+<label class="opt" for="raspuns_neo_o4"><input type="radio" id="raspuns_neo_o4" name="raspuns_neo"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+</div>
+</section>
+<section>
+<div class="shead"><span class="snum">5</span><h2>Chimioterapia și terapiile țintite</h2></div>
+<p class="ssub">Momentul ultimei cure contează: operațiile de reconstrucție se programează după refacerea hematologică.</p>
+<div class="qa" data-label="Ați făcut chimioterapie?">
+<span class="qlabel">Ați făcut chimioterapie?</span>
+<div class="opts inline">
+<label class="opt" for="ch_da"><input type="radio" id="ch_da" name="chimio"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+<label class="opt" for="ch_nu"><input type="radio" id="ch_nu" name="chimio"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="ch_urm"><input type="radio" id="ch_urm" name="chimio"><span class="obox rd"></span><span class="otext"><span class="otitle">Urmează să încep</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Când ați făcut chimioterapia" data-when="ch_da">
+<span class="qlabel">Când ați făcut chimioterapia</span>
+<div class="opts">
+<label class="opt" for="chimio_cand_o0"><input type="checkbox" id="chimio_cand_o0" name="chimio_cand"><span class="obox sq"></span><span class="otext"><span class="otitle">Înainte de operație (neoadjuvantă)</span></span></label>
+<label class="opt" for="chimio_cand_o1"><input type="checkbox" id="chimio_cand_o1" name="chimio_cand"><span class="obox sq"></span><span class="otext"><span class="otitle">După operație (adjuvantă)</span></span></label>
+<label class="opt" for="chimio_cand_o2"><input type="checkbox" id="chimio_cand_o2" name="chimio_cand"><span class="obox sq"></span><span class="otext"><span class="otitle">Și înainte, și după</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Perioada și numărul de cure" data-when="ch_da|ch_urm">
+<span class="qlabel">Perioada și numărul de cure</span>
+<div class="pair">
+<div class="inp"><label for="ch_prima">Prima cură</label>
+<input type="date" id="ch_prima">
+</div>
+<div class="inp"><label for="ch_ultima">Ultima cură</label>
+<input type="date" id="ch_ultima">
+</div>
+<div class="inp"><label for="ch_nr">Număr de cure</label>
+<input type="number" id="ch_nr" placeholder="ex. 8">
+</div>
+</div>
+</div>
+<div class="qa" data-label="Urmați în prezent terapie anti-HER2 sau imunoterapie?">
+<span class="qlabel">Urmați în prezent terapie anti-HER2 sau imunoterapie?</span>
+<span class="qhint">De exemplu Herceptin, Perjeta, Kadcyla, Enhertu sau Keytruda.</span>
+<div class="opts">
+<label class="opt" for="antiher2_ult_o0"><input type="radio" id="antiher2_ult_o0" name="antiher2_ult"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="antiher2_ult_o1"><input type="radio" id="antiher2_ult_o1" name="antiher2_ult"><span class="obox rd"></span><span class="otext"><span class="otitle">Da, tratamentul este în curs</span></span></label>
+<label class="opt" for="antiher2_ult_o2"><input type="radio" id="antiher2_ult_o2" name="antiher2_ult"><span class="obox rd"></span><span class="otext"><span class="otitle">Am făcut, s-a încheiat</span></span></label>
+<label class="opt" for="antiher2_ult_o3"><input type="radio" id="antiher2_ult_o3" name="antiher2_ult"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+<div class="inp"><label for="her2_ultima">Data ultimei administrări</label>
+<input type="date" id="her2_ultima">
+</div>
+</div>
+<div class="qa" data-label="Au rămas efecte după chimioterapie?">
+<span class="qlabel">Au rămas efecte după chimioterapie?</span>
+<div class="opts">
+<label class="opt" for="ch_efecte_o0"><input type="checkbox" id="ch_efecte_o0" name="ch_efecte"><span class="obox sq"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="ch_efecte_o1"><input type="checkbox" id="ch_efecte_o1" name="ch_efecte"><span class="obox sq"></span><span class="otext"><span class="otitle">Amorțeli sau furnicături la mâini și picioare</span><span class="obody">neuropatie</span></span></label>
+<label class="opt" for="ch_efecte_o2"><input type="checkbox" id="ch_efecte_o2" name="ch_efecte"><span class="obox sq"></span><span class="otext"><span class="otitle">Probleme cardiace sau scăderea funcției inimii</span></span></label>
+<label class="opt" for="ch_efecte_o3"><input type="checkbox" id="ch_efecte_o3" name="ch_efecte"><span class="obox sq"></span><span class="otext"><span class="otitle">Anemie sau alte modificări ale analizelor</span></span></label>
+<label class="opt" for="ch_efecte_o4"><input type="checkbox" id="ch_efecte_o4" name="ch_efecte"><span class="obox sq"></span><span class="otext"><span class="otitle">Oboseală importantă</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Aveți montat un port venos (cateter venos central)?">
+<span class="qlabel">Aveți montat un port venos (cateter venos central)?</span>
+<div class="opts inline">
+<label class="opt" for="port_o0"><input type="radio" id="port_o0" name="port"><span class="obox rd"></span><span class="otext"><span class="otitle">Da, pe dreapta</span></span></label>
+<label class="opt" for="port_o1"><input type="radio" id="port_o1" name="port"><span class="obox rd"></span><span class="otext"><span class="otitle">Da, pe stânga</span></span></label>
+<label class="opt" for="port_o2"><input type="radio" id="port_o2" name="port"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="port_o3"><input type="radio" id="port_o3" name="port"><span class="obox rd"></span><span class="otext"><span class="otitle">A fost scos</span></span></label>
+</div>
+<div class="inp"><label for="port_det">Observații</label>
+<input type="text" id="port_det">
+</div>
+</div>
+</section>
+<section>
+<div class="shead"><span class="snum">6</span><h2>Radioterapia</h2></div>
+<p class="ssub">Cea mai importantă secțiune pentru momentul reconstrucției. Țesutul iradiat se vindecă altfel, iar intervalul de la ultima ședință determină când se poate opera.</p>
+<div class="qa" data-label="Ați făcut radioterapie?">
+<span class="qlabel">Ați făcut radioterapie?</span>
+<div class="opts inline">
+<label class="opt" for="rt_da"><input type="radio" id="rt_da" name="rt"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+<label class="opt" for="rt_nu"><input type="radio" id="rt_nu" name="rt"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="rt_urm"><input type="radio" id="rt_urm" name="rt"><span class="obox rd"></span><span class="otext"><span class="otitle">Urmează să încep</span></span></label>
+<label class="opt" for="rt_nestiu"><input type="radio" id="rt_nestiu" name="rt"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu încă</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Data ultimei ședințe de radioterapie" data-when="rt_da">
+<span class="qlabel">Data ultimei ședințe de radioterapie</span>
+<span class="qhint">Este cea mai importantă dată din tot formularul: reconstrucția cu țesut propriu se programează de regulă la 6–12 luni după terminarea iradierii.</span>
+<div class="inp"><label for="rt_ultima">Ultima ședință</label>
+<input type="date" id="rt_ultima">
+</div>
+</div>
+<div class="qa" data-label="Interval de la ultima ședință" data-when="rt_da">
+<span class="qlabel">Interval de la ultima ședință</span>
+<div class="calc" id="calc_rt">Se calculează automat după ce completați câmpurile de mai sus.</div>
+</div>
+<div class="qa" data-label="Câte ședințe ați făcut și ce doză" data-when="rt_da">
+<span class="qlabel">Câte ședințe ați făcut și ce doză</span>
+<span class="qhint">Numărul de ședințe se numește „fracțiuni”. Schemele obișnuite au 15–16 sau 25 de ședințe. Doza totală e scrisă în Gy pe fișa de radioterapie.</span>
+<div class="pair">
+<div class="inp"><label for="rt_nr">Număr de ședințe</label>
+<input type="number" id="rt_nr" placeholder="ex. 16">
+</div>
+<div class="inp"><label for="rt_doza">Doza totală (Gy)</label>
+<input type="text" id="rt_doza" placeholder="ex. 40,05 Gy">
+</div>
+</div>
+</div>
+<div class="qa" data-label="Ce zone au fost iradiate" data-when="rt_da">
+<span class="qlabel">Ce zone au fost iradiate</span>
+<div class="opts">
+<label class="opt" for="rt_zona_o0"><input type="checkbox" id="rt_zona_o0" name="rt_zona"><span class="obox sq"></span><span class="otext"><span class="otitle">Sânul</span></span></label>
+<label class="opt" for="rt_zona_o1"><input type="checkbox" id="rt_zona_o1" name="rt_zona"><span class="obox sq"></span><span class="otext"><span class="otitle">Peretele toracic</span><span class="obody">după mastectomie</span></span></label>
+<label class="opt" for="rt_zona_o2"><input type="checkbox" id="rt_zona_o2" name="rt_zona"><span class="obox sq"></span><span class="otext"><span class="otitle">Axila</span></span></label>
+<label class="opt" for="rt_zona_o3"><input type="checkbox" id="rt_zona_o3" name="rt_zona"><span class="obox sq"></span><span class="otext"><span class="otitle">Zona supraclaviculară</span><span class="obody">deasupra claviculei</span></span></label>
+<label class="opt" for="rt_zona_o4"><input type="checkbox" id="rt_zona_o4" name="rt_zona"><span class="obox sq"></span><span class="otext"><span class="otitle">Lanțul mamar intern</span><span class="obody">lângă stern</span></span></label>
+<label class="opt" for="rt_zona_o5"><input type="checkbox" id="rt_zona_o5" name="rt_zona"><span class="obox sq"></span><span class="otext"><span class="otitle">Supliment pe patul tumoral (boost)</span></span></label>
+<label class="opt" for="rt_zona_o6"><input type="checkbox" id="rt_zona_o6" name="rt_zona"><span class="obox sq"></span><span class="otext"><span class="otitle">Nu știu exact</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Cum arată pielea în zona iradiată acum" data-when="rt_da">
+<span class="qlabel">Cum arată pielea în zona iradiată acum</span>
+<div class="opts">
+<label class="opt" for="rt_piele_o0"><input type="checkbox" id="rt_piele_o0" name="rt_piele"><span class="obox sq"></span><span class="otext"><span class="otitle">Arată normal</span></span></label>
+<label class="opt" for="rt_piele_o1"><input type="checkbox" id="rt_piele_o1" name="rt_piele"><span class="obox sq"></span><span class="otext"><span class="otitle">Mai închisă la culoare</span></span></label>
+<label class="opt" for="rt_piele_o2"><input type="checkbox" id="rt_piele_o2" name="rt_piele"><span class="obox sq"></span><span class="otext"><span class="otitle">Întărită, cartonată (fibroză)</span></span></label>
+<label class="opt" for="rt_piele_o3"><input type="checkbox" id="rt_piele_o3" name="rt_piele"><span class="obox sq"></span><span class="otext"><span class="otitle">Vase mici vizibile (teleangiectazii)</span></span></label>
+<label class="opt" for="rt_piele_o4"><input type="checkbox" id="rt_piele_o4" name="rt_piele"><span class="obox sq"></span><span class="otext"><span class="otitle">Retractată, trage</span></span></label>
+<label class="opt" for="rt_piele_o5"><input type="checkbox" id="rt_piele_o5" name="rt_piele"><span class="obox sq"></span><span class="otext"><span class="otitle">Subțire și fragilă</span></span></label>
+<label class="opt" for="rt_piele_o6"><input type="checkbox" id="rt_piele_o6" name="rt_piele"><span class="obox sq"></span><span class="otext"><span class="otitle">Zone care nu s-au vindecat sau se deschid</span></span></label>
+<label class="opt" for="rt_piele_o7"><input type="checkbox" id="rt_piele_o7" name="rt_piele"><span class="obox sq"></span><span class="otext"><span class="otitle">Durere sau usturime persistentă</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Când este programată radioterapia" data-when="rt_urm">
+<span class="qlabel">Când este programată radioterapia</span>
+<div class="inp"><label for="rt_prog">Data estimată de început</label>
+<input type="date" id="rt_prog">
+</div>
+</div>
+<div class="qa" data-label="Ce zone vor fi iradiate" data-when="rt_urm">
+<span class="qlabel">Ce zone vor fi iradiate</span>
+<span class="qhint">Dacă vi s-a comunicat planul de iradiere. Zonele contează pentru alegerea între implant și țesut propriu.</span>
+<div class="opts">
+<label class="opt" for="rt_zona_plan_o0"><input type="checkbox" id="rt_zona_plan_o0" name="rt_zona_plan"><span class="obox sq"></span><span class="otext"><span class="otitle">Sânul</span></span></label>
+<label class="opt" for="rt_zona_plan_o1"><input type="checkbox" id="rt_zona_plan_o1" name="rt_zona_plan"><span class="obox sq"></span><span class="otext"><span class="otitle">Peretele toracic</span><span class="obody">după mastectomie</span></span></label>
+<label class="opt" for="rt_zona_plan_o2"><input type="checkbox" id="rt_zona_plan_o2" name="rt_zona_plan"><span class="obox sq"></span><span class="otext"><span class="otitle">Axila</span></span></label>
+<label class="opt" for="rt_zona_plan_o3"><input type="checkbox" id="rt_zona_plan_o3" name="rt_zona_plan"><span class="obox sq"></span><span class="otext"><span class="otitle">Zona supraclaviculară</span><span class="obody">deasupra claviculei</span></span></label>
+<label class="opt" for="rt_zona_plan_o4"><input type="checkbox" id="rt_zona_plan_o4" name="rt_zona_plan"><span class="obox sq"></span><span class="otext"><span class="otitle">Lanțul mamar intern</span><span class="obody">lângă stern</span></span></label>
+<label class="opt" for="rt_zona_plan_o5"><input type="checkbox" id="rt_zona_plan_o5" name="rt_zona_plan"><span class="obox sq"></span><span class="otext"><span class="otitle">Supliment pe patul tumoral (boost)</span></span></label>
+<label class="opt" for="rt_zona_plan_o6"><input type="checkbox" id="rt_zona_plan_o6" name="rt_zona_plan"><span class="obox sq"></span><span class="otext"><span class="otitle">Nu știu exact</span></span></label>
+</div>
+</div>
+</section>
+<section>
+<div class="shead"><span class="snum">7</span><h2>Investigații imagistice și supraveghere</h2></div>
+<p class="ssub">Reconstrucția se face numai după ce se confirmă că boala este sub control. Ne interesează cât de recente sunt investigațiile.</p>
+<div class="qa" data-label="Când ați făcut ultimul CT cu substanță de contrast">
+<span class="qlabel">Când ați făcut ultimul CT cu substanță de contrast</span>
+<span class="qhint">Este investigația cea mai importantă pentru stadializare. Dacă aveți rezultatul, aduceți-l la consultație.</span>
+<div class="inp"><label for="ct_data">Data examinării</label>
+<input type="date" id="ct_data">
+</div>
+</div>
+<div class="qa" data-label="Care a fost rezultatul CT-ului">
+<span class="qlabel">Care a fost rezultatul CT-ului</span>
+<div class="opts">
+<label class="opt" for="ct_rez_o0"><input type="radio" id="ct_rez_o0" name="ct_rez"><span class="obox rd"></span><span class="otext"><span class="otitle">Fără semne de boală</span></span></label>
+<label class="opt" for="ct_rez_o1"><input type="radio" id="ct_rez_o1" name="ct_rez"><span class="obox rd"></span><span class="otext"><span class="otitle">Modificări care necesită urmărire</span></span></label>
+<label class="opt" for="ct_rez_o2"><input type="radio" id="ct_rez_o2" name="ct_rez"><span class="obox rd"></span><span class="otext"><span class="otitle">S-au găsit metastaze</span></span></label>
+<label class="opt" for="ct_rez_o3"><input type="radio" id="ct_rez_o3" name="ct_rez"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu rezultatul</span></span></label>
+</div>
+<div class="inp"><label for="ct_obs">Observații din rezultat</label>
+<input type="text" id="ct_obs">
+</div>
+</div>
+<div class="qa" data-label="Alte investigații recente">
+<span class="qlabel">Alte investigații recente</span>
+<div class="pair">
+<div class="inp"><label for="pet_data">PET-CT</label>
+<input type="date" id="pet_data">
+</div>
+<div class="inp"><label for="rmn_data">RMN mamar</label>
+<input type="date" id="rmn_data">
+</div>
+<div class="inp"><label for="eco_data">Ecografie sau mamografie</label>
+<input type="date" id="eco_data">
+</div>
+<div class="inp"><label for="scinti_data">Scintigrafie osoasă</label>
+<input type="date" id="scinti_data">
+</div>
+</div>
+</div>
+<div class="qa" data-label="Ați făcut deja un angio-CT abdominal pentru vasele peretelui abdominal?">
+<span class="qlabel">Ați făcut deja un angio-CT abdominal pentru vasele peretelui abdominal?</span>
+<span class="qhint">Se face înainte de reconstrucția cu țesut propriu din abdomen, pentru a identifica vasele care vor hrăni lamboul.</span>
+<div class="opts inline">
+<label class="opt" for="angioct_o0"><input type="radio" id="angioct_o0" name="angioct"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+<label class="opt" for="angioct_o1"><input type="radio" id="angioct_o1" name="angioct"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="angioct_o2"><input type="radio" id="angioct_o2" name="angioct"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+<div class="inp"><label for="angioct_data">Data, dacă da</label>
+<input type="date" id="angioct_data">
+</div>
+</div>
+<div class="qa" data-label="Aveți sau ați avut metastaze la distanță?">
+<span class="qlabel">Aveți sau ați avut metastaze la distanță?</span>
+<div class="opts inline">
+<label class="opt" for="metastaze_o0"><input type="radio" id="metastaze_o0" name="metastaze"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="metastaze_o1"><input type="radio" id="metastaze_o1" name="metastaze"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+<label class="opt" for="metastaze_o2"><input type="radio" id="metastaze_o2" name="metastaze"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+<div class="inp"><label for="met_det">Dacă da, unde</label>
+<input type="text" id="met_det" placeholder="ex. os, ficat, plămân">
+</div>
+</div>
+<div class="qa" data-label="Ați avut o recidivă a bolii?">
+<span class="qlabel">Ați avut o recidivă a bolii?</span>
+<div class="opts inline">
+<label class="opt" for="recidiva_o0"><input type="radio" id="recidiva_o0" name="recidiva"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="recidiva_o1"><input type="radio" id="recidiva_o1" name="recidiva"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+</div>
+<div class="inp"><label for="recidiva_cand">Dacă da, când</label>
+<input type="date" id="recidiva_cand">
+</div>
+</div>
+</section>
+<section>
+<div class="shead"><span class="snum">8</span><h2>Testarea genetică și istoricul familial</h2></div>
+<p class="ssub">O mutație genetică poate schimba decizia către mastectomie bilaterală și reconstrucție de ambele părți.</p>
+<div class="qa" data-label="Ați făcut testare genetică?">
+<span class="qlabel">Ați făcut testare genetică?</span>
+<div class="opts">
+<label class="opt" for="genetic_o0"><input type="radio" id="genetic_o0" name="genetic"><span class="obox rd"></span><span class="otext"><span class="otitle">Da, rezultat negativ</span></span></label>
+<label class="opt" for="genetic_o1"><input type="radio" id="genetic_o1" name="genetic"><span class="obox rd"></span><span class="otext"><span class="otitle">Da, cu mutație identificată</span></span></label>
+<label class="opt" for="genetic_o2"><input type="radio" id="genetic_o2" name="genetic"><span class="obox rd"></span><span class="otext"><span class="otitle">Am făcut testul, aștept rezultatul</span></span></label>
+<label class="opt" for="genetic_o3"><input type="radio" id="genetic_o3" name="genetic"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu am făcut</span></span></label>
+<label class="opt" for="genetic_o4"><input type="radio" id="genetic_o4" name="genetic"><span class="obox rd"></span><span class="otext"><span class="otitle">Mi s-a recomandat, dar nu am făcut încă</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Ce mutație a fost găsită">
+<span class="qlabel">Ce mutație a fost găsită</span>
+<div class="opts">
+<label class="opt" for="mutatie_o0"><input type="checkbox" id="mutatie_o0" name="mutatie"><span class="obox sq"></span><span class="otext"><span class="otitle">BRCA1</span></span></label>
+<label class="opt" for="mutatie_o1"><input type="checkbox" id="mutatie_o1" name="mutatie"><span class="obox sq"></span><span class="otext"><span class="otitle">BRCA2</span></span></label>
+<label class="opt" for="mutatie_o2"><input type="checkbox" id="mutatie_o2" name="mutatie"><span class="obox sq"></span><span class="otext"><span class="otitle">PALB2</span></span></label>
+<label class="opt" for="mutatie_o3"><input type="checkbox" id="mutatie_o3" name="mutatie"><span class="obox sq"></span><span class="otext"><span class="otitle">TP53</span></span></label>
+<label class="opt" for="mutatie_o4"><input type="checkbox" id="mutatie_o4" name="mutatie"><span class="obox sq"></span><span class="otext"><span class="otitle">CHEK2</span></span></label>
+<label class="opt" for="mutatie_o5"><input type="checkbox" id="mutatie_o5" name="mutatie"><span class="obox sq"></span><span class="otext"><span class="otitle">Alta</span></span></label>
+<label class="opt" for="mutatie_o6"><input type="checkbox" id="mutatie_o6" name="mutatie"><span class="obox sq"></span><span class="otext"><span class="otitle">Nu e cazul</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Rude de gradul întâi cu cancer de sân sau ovarian">
+<span class="qlabel">Rude de gradul întâi cu cancer de sân sau ovarian</span>
+<span class="qhint">Mamă, soră, fiică.</span>
+<div class="opts inline">
+<label class="opt" for="familie_o0"><input type="radio" id="familie_o0" name="familie"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="familie_o1"><input type="radio" id="familie_o1" name="familie"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+</div>
+<div class="inp"><label for="familie_det">Cine și la ce vârstă</label>
+<input type="text" id="familie_det" placeholder="ex. mama, la 52 de ani">
+</div>
+</div>
+</section>
+<section>
+<div class="shead"><span class="snum">9</span><h2>Zona donatoare și operațiile anterioare</h2></div>
+<p class="ssub">Reconstrucția cu țesut propriu folosește de regulă pielea și grăsimea de pe abdomen. Operațiile vechi pot face zona nefolosibilă, așa că întrebările de aici decid ce variante rămân deschise.</p>
+<div class="qa" data-label="Ce operații ați avut pe abdomen">
+<span class="qlabel">Ce operații ați avut pe abdomen</span>
+<span class="qhint">Bifați tot ce ați avut, oricât de demult.</span>
+<div class="opts">
+<label class="opt" for="abdomen_o0"><input type="checkbox" id="abdomen_o0" name="abdomen"><span class="obox sq"></span><span class="otext"><span class="otitle">Nicio operație pe abdomen</span></span></label>
+<label class="opt" for="abdomen_o1"><input type="checkbox" id="abdomen_o1" name="abdomen"><span class="obox sq"></span><span class="otext"><span class="otitle">Cezariană</span><span class="obody">una sau mai multe</span></span></label>
+<label class="opt" for="abdomen_o2"><input type="checkbox" id="abdomen_o2" name="abdomen"><span class="obox sq"></span><span class="otext"><span class="otitle">Histerectomie</span><span class="obody">scoaterea uterului</span></span></label>
+<label class="opt" for="abdomen_o3"><input type="checkbox" id="abdomen_o3" name="abdomen"><span class="obox sq"></span><span class="otext"><span class="otitle">Apendicectomie</span></span></label>
+<label class="opt" for="abdomen_o4"><input type="checkbox" id="abdomen_o4" name="abdomen"><span class="obox sq"></span><span class="otext"><span class="otitle">Operație de vezică biliară</span></span></label>
+<label class="opt" for="abdomen_o5"><input type="checkbox" id="abdomen_o5" name="abdomen"><span class="obox sq"></span><span class="otext"><span class="otitle">Operație de hernie, cu sau fără plasă</span></span></label>
+<label class="opt" for="abdomen_o6"><input type="checkbox" id="abdomen_o6" name="abdomen"><span class="obox sq"></span><span class="otext"><span class="otitle">Abdominoplastie</span><span class="obody">„șorț abdominal”, lifting de abdomen</span></span></label>
+<label class="opt" for="abdomen_o7"><input type="checkbox" id="abdomen_o7" name="abdomen"><span class="obox sq"></span><span class="otext"><span class="otitle">Liposucție pe abdomen</span></span></label>
+<label class="opt" for="abdomen_o8"><input type="checkbox" id="abdomen_o8" name="abdomen"><span class="obox sq"></span><span class="otext"><span class="otitle">Altă operație pe abdomen</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Aveți o hernie sau o slăbiciune a peretelui abdominal?">
+<span class="qlabel">Aveți o hernie sau o slăbiciune a peretelui abdominal?</span>
+<div class="opts inline">
+<label class="opt" for="hernie_o0"><input type="radio" id="hernie_o0" name="hernie"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="hernie_o1"><input type="radio" id="hernie_o1" name="hernie"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+<label class="opt" for="hernie_o2"><input type="radio" id="hernie_o2" name="hernie"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Operații sau cicatrici în alte zone care ar putea fi folosite">
+<span class="qlabel">Operații sau cicatrici în alte zone care ar putea fi folosite</span>
+<div class="opts">
+<label class="opt" for="alte_zone_o0"><input type="checkbox" id="alte_zone_o0" name="alte_zone"><span class="obox sq"></span><span class="otext"><span class="otitle">Niciuna</span></span></label>
+<label class="opt" for="alte_zone_o1"><input type="checkbox" id="alte_zone_o1" name="alte_zone"><span class="obox sq"></span><span class="otext"><span class="otitle">Spate</span></span></label>
+<label class="opt" for="alte_zone_o2"><input type="checkbox" id="alte_zone_o2" name="alte_zone"><span class="obox sq"></span><span class="otext"><span class="otitle">Fese</span></span></label>
+<label class="opt" for="alte_zone_o3"><input type="checkbox" id="alte_zone_o3" name="alte_zone"><span class="obox sq"></span><span class="otext"><span class="otitle">Coapse, interior</span></span></label>
+<label class="opt" for="alte_zone_o4"><input type="checkbox" id="alte_zone_o4" name="alte_zone"><span class="obox sq"></span><span class="otext"><span class="otitle">Flancuri sau zona lombară</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Nașteri și sarcini">
+<span class="qlabel">Nașteri și sarcini</span>
+<div class="opts inline">
+<label class="opt" for="sarcini_o0"><input type="radio" id="sarcini_o0" name="sarcini"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu am născut</span></span></label>
+<label class="opt" for="sarcini_o1"><input type="radio" id="sarcini_o1" name="sarcini"><span class="obox rd"></span><span class="otext"><span class="otitle">Am născut</span></span></label>
+</div>
+<div class="inp"><label for="nr_nasteri">Număr de nașteri</label>
+<input type="number" id="nr_nasteri" placeholder="ex. 2">
+</div>
+</div>
+<div class="qa" data-label="Vă doriți o sarcină în viitor?">
+<span class="qlabel">Vă doriți o sarcină în viitor?</span>
+<div class="opts inline">
+<label class="opt" for="sarcina_viitor_o0"><input type="radio" id="sarcina_viitor_o0" name="sarcina_viitor"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="sarcina_viitor_o1"><input type="radio" id="sarcina_viitor_o1" name="sarcina_viitor"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+<label class="opt" for="sarcina_viitor_o2"><input type="radio" id="sarcina_viitor_o2" name="sarcina_viitor"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu m-am hotărât</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Greutatea și înălțimea">
+<span class="qlabel">Greutatea și înălțimea</span>
+<span class="qhint">Ajută la estimarea volumului disponibil pentru reconstrucția cu țesut propriu.</span>
+<div class="pair">
+<div class="inp"><label for="greutate">Greutate (kg)</label>
+<input type="number" id="greutate" placeholder="ex. 68">
+</div>
+<div class="inp"><label for="inaltime">Înălțime (cm)</label>
+<input type="number" id="inaltime" placeholder="ex. 165">
+</div>
+</div>
+</div>
+<div class="qa" data-label="Indice de masă corporală">
+<span class="qlabel">Indice de masă corporală</span>
+<div class="calc" id="calc_imc">Se calculează automat după ce completați câmpurile de mai sus.</div>
+</div>
+<div class="qa" data-label="Ce mărime de sutien purtați">
+<span class="qlabel">Ce mărime de sutien purtați</span>
+<div class="inp"><label for="sutien_val">Mărime</label>
+<input type="text" id="sutien_val" placeholder="ex. 75B">
+</div>
+</div>
+</section>
+<section>
+<div class="shead"><span class="snum">10</span><h2>Starea generală și factorii de risc</h2></div>
+<p class="ssub">Aceste informații influențează direct siguranța operației și riscul de complicații la vindecare. Medicamentele pe care le luați se completează separat, în chestionarul de medicație preoperatorie.</p>
+<div class="qa" data-label="Fumați?">
+<span class="qlabel">Fumați?</span>
+<span class="qhint">Fumatul este cel mai important factor modificabil: scade circulația în piele și crește mult riscul de necroză și de pierdere a lamboului. Se cere oprirea cu cel puțin 4 săptămâni înainte de operație.</span>
+<div class="opts">
+<label class="opt" for="fumat_o0"><input type="radio" id="fumat_o0" name="fumat"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu am fumat niciodată</span></span></label>
+<label class="opt" for="fumat_o1"><input type="radio" id="fumat_o1" name="fumat"><span class="obox rd"></span><span class="otext"><span class="otitle">Am fumat, dar m-am lăsat</span></span></label>
+<label class="opt" for="fumat_o2"><input type="radio" id="fumat_o2" name="fumat"><span class="obox rd"></span><span class="otext"><span class="otitle">Fumez în prezent</span></span></label>
+</div>
+<div class="pair">
+<div class="inp"><label for="fumat_cate">Câte țigări pe zi</label>
+<input type="number" id="fumat_cate" placeholder="ex. 10">
+</div>
+<div class="inp"><label for="fumat_de_cand">Dacă v-ați lăsat, de când</label>
+<input type="date" id="fumat_de_cand">
+</div>
+</div>
+</div>
+<div class="qa" data-label="Aveți diabet?">
+<span class="qlabel">Aveți diabet?</span>
+<div class="opts inline">
+<label class="opt" for="diabet_o0"><input type="radio" id="diabet_o0" name="diabet"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="diabet_o1"><input type="radio" id="diabet_o1" name="diabet"><span class="obox rd"></span><span class="otext"><span class="otitle">Da, cu tratament oral</span></span></label>
+<label class="opt" for="diabet_o2"><input type="radio" id="diabet_o2" name="diabet"><span class="obox rd"></span><span class="otext"><span class="otitle">Da, cu insulină</span></span></label>
+</div>
+<div class="inp"><label for="hba1c">Ultima hemoglobină glicozilată, dacă o știți</label>
+<input type="text" id="hba1c" placeholder="ex. 6,8%">
+</div>
+</div>
+<div class="qa" data-label="Aveți alte boli cronice?">
+<span class="qlabel">Aveți alte boli cronice?</span>
+<div class="opts">
+<label class="opt" for="boli_o0"><input type="checkbox" id="boli_o0" name="boli"><span class="obox sq"></span><span class="otext"><span class="otitle">Niciuna</span></span></label>
+<label class="opt" for="boli_o1"><input type="checkbox" id="boli_o1" name="boli"><span class="obox sq"></span><span class="otext"><span class="otitle">Hipertensiune arterială</span></span></label>
+<label class="opt" for="boli_o2"><input type="checkbox" id="boli_o2" name="boli"><span class="obox sq"></span><span class="otext"><span class="otitle">Boală de inimă</span></span></label>
+<label class="opt" for="boli_o3"><input type="checkbox" id="boli_o3" name="boli"><span class="obox sq"></span><span class="otext"><span class="otitle">Boală pulmonară</span><span class="obody">astm, BPOC</span></span></label>
+<label class="opt" for="boli_o4"><input type="checkbox" id="boli_o4" name="boli"><span class="obox sq"></span><span class="otext"><span class="otitle">Boală de rinichi</span></span></label>
+<label class="opt" for="boli_o5"><input type="checkbox" id="boli_o5" name="boli"><span class="obox sq"></span><span class="otext"><span class="otitle">Boală de ficat</span></span></label>
+<label class="opt" for="boli_o6"><input type="checkbox" id="boli_o6" name="boli"><span class="obox sq"></span><span class="otext"><span class="otitle">Boală autoimună</span><span class="obody">lupus, poliartrită, sclerodermie</span></span></label>
+<label class="opt" for="boli_o7"><input type="checkbox" id="boli_o7" name="boli"><span class="obox sq"></span><span class="otext"><span class="otitle">Boală de tiroidă</span></span></label>
+<label class="opt" for="boli_o8"><input type="checkbox" id="boli_o8" name="boli"><span class="obox sq"></span><span class="otext"><span class="otitle">Anemie</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Ați avut vreodată tromboză sau embolie pulmonară?">
+<span class="qlabel">Ați avut vreodată tromboză sau embolie pulmonară?</span>
+<span class="qhint">Important: tulburările de coagulare sunt o contraindicație pentru reconstrucția cu țesut propriu, pentru că pot tromboza vasele lamboului.</span>
+<div class="opts inline">
+<label class="opt" for="tromboza_o0"><input type="radio" id="tromboza_o0" name="tromboza"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="tromboza_o1"><input type="radio" id="tromboza_o1" name="tromboza"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+<label class="opt" for="tromboza_o2"><input type="radio" id="tromboza_o2" name="tromboza"><span class="obox rd"></span><span class="otext"><span class="otitle">Am o trombofilie cunoscută</span></span></label>
+</div>
+<div class="inp"><label for="tromb_det">Detalii</label>
+<input type="text" id="tromb_det">
+</div>
+</div>
+<div class="qa" data-label="Aveți alergii?">
+<span class="qlabel">Aveți alergii?</span>
+<div class="opts inline">
+<label class="opt" for="alergii_o0"><input type="radio" id="alergii_o0" name="alergii"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="alergii_o1"><input type="radio" id="alergii_o1" name="alergii"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+</div>
+<div class="inp"><label for="alergii_det">La ce</label>
+<input type="text" id="alergii_det" placeholder="ex. penicilină, iod">
+</div>
+</div>
+<div class="qa" data-label="Ați avut probleme la anestezii anterioare?">
+<span class="qlabel">Ați avut probleme la anestezii anterioare?</span>
+<div class="opts inline">
+<label class="opt" for="anestezie_o0"><input type="radio" id="anestezie_o0" name="anestezie"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="anestezie_o1"><input type="radio" id="anestezie_o1" name="anestezie"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+<label class="opt" for="anestezie_o2"><input type="radio" id="anestezie_o2" name="anestezie"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu am mai avut anestezie generală</span></span></label>
+</div>
+<div class="inp"><label for="anestezie_det">Ce s-a întâmplat</label>
+<input type="text" id="anestezie_det">
+</div>
+</div>
+</section>
+<section>
+<div class="shead"><span class="snum">11</span><h2>Ce vă doriți de la reconstrucție</h2></div>
+<p class="ssub">Nu există un răspuns greșit. Ne ajută să vă propunem varianta care se potrivește cu ce vă este important.</p>
+<div class="qa" data-label="Ce tip de reconstrucție vă interesează">
+<span class="qlabel">Ce tip de reconstrucție vă interesează</span>
+<div class="opts">
+<label class="opt" for="dorinta_o0"><input type="radio" id="dorinta_o0" name="dorinta"><span class="obox rd"></span><span class="otext"><span class="otitle">Cu implant</span><span class="obody">operație mai scurtă, fără cicatrici în altă parte</span></span></label>
+<label class="opt" for="dorinta_o1"><input type="radio" id="dorinta_o1" name="dorinta"><span class="obox rd"></span><span class="otext"><span class="otitle">Cu țesut propriu</span><span class="obody">rezultat mai natural la atingere, dar operație mai amplă</span></span></label>
+<label class="opt" for="dorinta_o2"><input type="radio" id="dorinta_o2" name="dorinta"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu, aș vrea să discutăm variantele</span></span></label>
+<label class="opt" for="dorinta_o3"><input type="radio" id="dorinta_o3" name="dorinta"><span class="obox rd"></span><span class="otext"><span class="otitle">Încă nu m-am hotărât dacă vreau reconstrucție</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Când ați dori reconstrucția">
+<span class="qlabel">Când ați dori reconstrucția</span>
+<div class="opts">
+<label class="opt" for="moment_o0"><input type="radio" id="moment_o0" name="moment"><span class="obox rd"></span><span class="otext"><span class="otitle">În aceeași operație cu mastectomia</span></span></label>
+<label class="opt" for="moment_o1"><input type="radio" id="moment_o1" name="moment"><span class="obox rd"></span><span class="otext"><span class="otitle">Cât mai curând după terminarea tratamentelor</span></span></label>
+<label class="opt" for="moment_o2"><input type="radio" id="moment_o2" name="moment"><span class="obox rd"></span><span class="otext"><span class="otitle">Peste un timp, nu mă grăbesc</span></span></label>
+<label class="opt" for="moment_o3"><input type="radio" id="moment_o3" name="moment"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="V-ar interesa și o operație de simetrizare la celălalt sân?">
+<span class="qlabel">V-ar interesa și o operație de simetrizare la celălalt sân?</span>
+<div class="opts inline">
+<label class="opt" for="simetrizare_o0"><input type="radio" id="simetrizare_o0" name="simetrizare"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+<label class="opt" for="simetrizare_o1"><input type="radio" id="simetrizare_o1" name="simetrizare"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="simetrizare_o2"><input type="radio" id="simetrizare_o2" name="simetrizare"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="V-ar interesa reconstrucția mamelonului și a areolei?">
+<span class="qlabel">V-ar interesa reconstrucția mamelonului și a areolei?</span>
+<div class="opts inline">
+<label class="opt" for="mamelon_o0"><input type="radio" id="mamelon_o0" name="mamelon"><span class="obox rd"></span><span class="otext"><span class="otitle">Da</span></span></label>
+<label class="opt" for="mamelon_o1"><input type="radio" id="mamelon_o1" name="mamelon"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu</span></span></label>
+<label class="opt" for="mamelon_o2"><input type="radio" id="mamelon_o2" name="mamelon"><span class="obox rd"></span><span class="otext"><span class="otitle">Nu știu</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Ce este cel mai important pentru dumneavoastră">
+<span class="qlabel">Ce este cel mai important pentru dumneavoastră</span>
+<div class="opts">
+<label class="opt" for="prioritati_o0"><input type="checkbox" id="prioritati_o0" name="prioritati"><span class="obox sq"></span><span class="otext"><span class="otitle">Să arate cât mai natural</span></span></label>
+<label class="opt" for="prioritati_o1"><input type="checkbox" id="prioritati_o1" name="prioritati"><span class="obox sq"></span><span class="otext"><span class="otitle">Să se simtă natural la atingere</span></span></label>
+<label class="opt" for="prioritati_o2"><input type="checkbox" id="prioritati_o2" name="prioritati"><span class="obox sq"></span><span class="otext"><span class="otitle">Să am cât mai puține operații</span></span></label>
+<label class="opt" for="prioritati_o3"><input type="checkbox" id="prioritati_o3" name="prioritati"><span class="obox sq"></span><span class="otext"><span class="otitle">Să stau cât mai puțin în spital</span></span></label>
+<label class="opt" for="prioritati_o4"><input type="checkbox" id="prioritati_o4" name="prioritati"><span class="obox sq"></span><span class="otext"><span class="otitle">Să nu am cicatrici în alte zone</span></span></label>
+<label class="opt" for="prioritati_o5"><input type="checkbox" id="prioritati_o5" name="prioritati"><span class="obox sq"></span><span class="otext"><span class="otitle">Să pot reveni repede la activitate</span></span></label>
+<label class="opt" for="prioritati_o6"><input type="checkbox" id="prioritati_o6" name="prioritati"><span class="obox sq"></span><span class="otext"><span class="otitle">Simetria cu celălalt sân</span></span></label>
+</div>
+</div>
+<div class="qa" data-label="Temeri, întrebări sau alte informații utile">
+<span class="qlabel">Temeri, întrebări sau alte informații utile</span>
+<div class="inp"><label for="obs_txt">Scrieți aici orice vă îngrijorează sau credeți că ar trebui să știm</label>
+<textarea id="obs_txt" rows="3"></textarea>
+</div>
+</div>
+</section>
+
+  <section id="summary">
+    <div class="shead"><h2>Rezumat și trimitere</h2></div>
+    <div class="summary">
+      <h3 id="sumhead">Nimic completat încă</h3>
+      <div id="sumbody"><p class="empty">Pe măsură ce completați, răspunsurile apar aici. Butonul de mai jos salvează formularul ca PDF, gata de trimis.</p></div>
+      <div class="actions">
+        <button class="btn" id="pdf" type="button">Salvează formularul ca PDF</button>
+        <button class="btn ghost" id="copy" type="button">Copiază textul</button>
+        <button class="btn ghost" id="reset" type="button">Șterge tot</button>
+      </div>
+      <p class="toast" id="toast"></p>
+      <p class="hint" id="pdfhint">PDF-ul conține toate întrebările și răspunsurile dumneavoastră și nu mai poate fi modificat după salvare.</p>
+      <p class="hint" id="altline" hidden>Dacă fișierul nu a apărut în Descărcări, <button class="inlinebtn" id="showimg" type="button">afișați paginile ca imagini</button> și salvați-le de acolo.</p>
+      <div id="pdfout" hidden></div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>Important.</b> Acest chestionar strânge informații pentru consultația de chirurgie plastică și nu înlocuiește evaluarea medicală. Decizia privind tipul de reconstrucție și momentul ei se ia împreună cu echipa curantă: chirurg oncolog, chirurg plastician, oncolog medical și radioterapeut.
+  </div>
+  <p class="foot">Întrebările au fost alcătuite pe baza criteriilor din literatura de specialitate privind selecția pacientelor pentru reconstrucție imediată și întârziată, mastectomia cu prezervarea mamelonului și lambourile libere abdominale.</p>
+</main>
+
+<script>
+(function(){
+/* Reads the questionnaire straight out of the page, so the export always
+   matches what is on screen and needs no embedded copy of the questions. */
+var KEY="recon-v1";
+
+function $(id){ return document.getElementById(id); }
+function trim(s){ return String(s==null?"":s).replace(/^\s+|\s+$/g,""); }
+function txt(el){ return el?trim(el.textContent):""; }
+
+/* ---------- read every question block ---------- */
+function readDoc(){
+  var out=[], secs=document.querySelectorAll("main section"), i, j, k;
+  for(i=0;i<secs.length;i++){
+    var sn=secs[i];
+    if(sn.id==="summary") continue;
+    var sec={num:txt(sn.querySelector(".snum")),
+             title:txt(sn.querySelector(".shead h2")),
+             sub:txt(sn.querySelector(".ssub")),
+             items:[], why:txt(sn.querySelector("details.why p"))};
+    var qas=sn.querySelectorAll(".qa");
+    for(j=0;j<qas.length;j++){
+      var qa=qas[j];
+      if(qa.getAttribute("data-off")==="1") continue;
+      var q={label:qa.getAttribute("data-label")||txt(qa.querySelector(".qlabel")),
+             hint:txt(qa.querySelector(".qhint")), parts:[], filled:false};
+      var opts=qa.querySelectorAll(".opt");
+      var picked=[];
+      for(k=0;k<opts.length;k++){
+        var oi=opts[k].querySelector("input");
+        if(oi&&oi.checked) picked.push(txt(opts[k].querySelector(".otitle")));
+      }
+      if(opts.length) q.parts.push({sub:"",value:picked.join(", ")});
+      var calc=qa.querySelector(".calc");
+      if(calc&&calc.querySelector("b")) q.parts.push({sub:"",value:trim(calc.textContent)});
+      var fields=qa.querySelectorAll(".inp");
+      for(k=0;k<fields.length;k++){
+        var ctl=fields[k].querySelector("input,textarea");
+        if(!ctl) continue;
+        var v=trim(ctl.value);
+        if(ctl.type==="date") v=roDate(v);
+        q.parts.push({sub:txt(fields[k].querySelector("label")),value:v});
+      }
+      for(k=0;k<q.parts.length;k++){ if(q.parts[k].value) q.filled=true; }
+      sec.items.push(q);
+    }
+    if(sec.items.length) out.push(sec);
+  }
+  return out;
+}
+
+function roDate(iso){
+  if(!iso) return "";
+  var q=String(iso).split("-");
+  if(q.length===3) return q[2]+"."+q[1]+"."+q[0];
+  if(q.length===2) return q[1]+"."+q[0];
+  return iso;
+}
+function pad2(x){ return (x<10?"0":"")+x; }
+function stamp(){
+  var n=new Date();
+  return pad2(n.getDate())+"."+pad2(n.getMonth()+1)+"."+n.getFullYear()+", ora "+pad2(n.getHours())+":"+pad2(n.getMinutes());
+}
+function answerText(q){
+  var bits=[], i;
+  for(i=0;i<q.parts.length;i++){
+    var p=q.parts[i];
+    if(!p.value) continue;
+    bits.push(p.sub?(p.sub+": "+p.value):p.value);
+  }
+  return bits.join(" · ");
+}
+
+/* ---------- saving answers in this browser ---------- */
+function allControls(){ return document.querySelectorAll("input,textarea"); }
+function save(){
+  try{
+    var d={c:{},t:{}}, all=allControls(), i;
+    for(i=0;i<all.length;i++){
+      var el=all[i];
+      if(!el.id) continue;
+      if(el.type==="checkbox"||el.type==="radio"){ if(el.checked) d.c[el.id]=1; }
+      else if(trim(el.value)) d.t[el.id]=el.value;
+    }
+    localStorage.setItem(KEY,JSON.stringify(d));
+  }catch(e){}
+}
+function load(){
+  try{
+    var raw=localStorage.getItem(KEY); if(!raw) return;
+    var d=JSON.parse(raw), k, el;
+    for(k in (d.c||{})){ el=$(k); if(el) el.checked=true; }
+    for(k in (d.t||{})){ el=$(k); if(el) el.value=d.t[k]; }
+  }catch(e){}
+}
+
+/* ---------- conditional blocks ---------- */
+/* Without script every block stays visible, so nothing is ever lost. */
+function applyConditions(){
+  var nodes=document.querySelectorAll("[data-when]"), i;
+  for(i=0;i<nodes.length;i++){
+    var need=nodes[i].getAttribute("data-when").split("|"), on=false, j;
+    for(j=0;j<need.length;j++){
+      var c=$(need[j]);
+      if(c&&c.checked){ on=true; break; }
+    }
+    nodes[i].hidden=!on;
+    var inner=nodes[i].querySelectorAll(".qa"), m;
+    for(m=0;m<inner.length;m++) inner[m].setAttribute("data-off",on?"0":"1");
+    if(nodes[i].className.indexOf("qa")>=0) nodes[i].setAttribute("data-off",on?"0":"1");
+  }
+}
+
+/* ---------- computed helpers ---------- */
+function computeBMI(){
+  var el=$("calc_imc"); if(!el) return;
+  var w=parseFloat(($("greutate")||{}).value), h=parseFloat(($("inaltime")||{}).value);
+  if(!w||!h||h<100||h>230){ el.innerHTML="Indicele de masă corporală se calculează automat după ce completați greutatea și înălțimea."; return; }
+  var bmi=Math.round((w/((h/100)*(h/100)))*10)/10;
+  var band=bmi<18.5?"sub greutatea normală":(bmi<25?"greutate normală":(bmi<30?"supraponderal":"obezitate"));
+  el.innerHTML="Indice de masă corporală: <b>"+bmi.toFixed(1)+"</b> — "+band+".";
+}
+function computeRT(){
+  var el=$("calc_rt"); if(!el) return;
+  var v=($("rt_ultima")||{}).value;
+  if(!v){ el.innerHTML="Intervalul de la ultima ședință se calculează automat după ce completați data."; return; }
+  var d=new Date(v), now=new Date();
+  if(isNaN(d.getTime())){ el.innerHTML=""; return; }
+  var months=(now.getFullYear()-d.getFullYear())*12+(now.getMonth()-d.getMonth());
+  if(now.getDate()<d.getDate()) months--;
+  if(months<0){ el.innerHTML="Data introdusă este în viitor — radioterapia nu s-a încheiat încă."; return; }
+  var s=months<1?"mai puțin de o lună":(months===1?"o lună":months+" luni");
+  el.innerHTML="De la ultima ședință de radioterapie au trecut <b>"+s+"</b>.";
+}
+function computeAll(){ computeBMI(); computeRT(); }
+
+/* ---------- live summary ---------- */
+function render(){
+  applyConditions();
+  computeAll();
+  var secs=readDoc(), total=0, done=0, i, j;
+  for(i=0;i<secs.length;i++){
+    for(j=0;j<secs[i].items.length;j++){
+      total++;
+      if(secs[i].items[j].filled) done++;
+    }
+  }
+  var c=$("count");
+  if(c) c.textContent=done+" din "+total+" completate";
+
+  var qas=document.querySelectorAll(".qa"), n;
+  for(n=0;n<qas.length;n++){
+    var qa=qas[n], has=false, inputs=qa.querySelectorAll("input,textarea"), m;
+    for(m=0;m<inputs.length;m++){
+      var el=inputs[m];
+      if(el.type==="checkbox"||el.type==="radio"){ if(el.checked){ has=true; break; } }
+      else if(trim(el.value)){ has=true; break; }
+    }
+    if(has) qa.className=qa.className.indexOf("answered")<0?(qa.className+" answered"):qa.className;
+    else qa.className=qa.className.replace(/\s*answered/,"");
+  }
+
+  var head=$("sumhead"), body=$("sumbody");
+  if(!head||!body) return;
+  body.textContent="";
+  if(!done){
+    head.textContent="Nimic completat încă";
+    var p=document.createElement("p");
+    p.className="empty";
+    p.textContent="Pe măsură ce completați, răspunsurile apar aici. Butonul de mai jos salvează formularul ca PDF, gata de trimis.";
+    body.appendChild(p);
+    return;
+  }
+  head.textContent=done+" răspunsuri completate din "+total;
+  for(i=0;i<secs.length;i++){
+    var sec=secs[i], rows=[];
+    for(j=0;j<sec.items.length;j++){
+      if(sec.items[j].filled) rows.push(sec.items[j]);
+    }
+    if(!rows.length) continue;
+    var wrap=document.createElement("div"); wrap.className="sumgroup";
+    var h=document.createElement("h4"); h.textContent=sec.num+". "+sec.title; wrap.appendChild(h);
+    var dl=document.createElement("dl");
+    for(j=0;j<rows.length;j++){
+      var dt=document.createElement("dt"); dt.textContent=rows[j].label; dl.appendChild(dt);
+      var dd=document.createElement("dd"); dd.textContent=answerText(rows[j]); dl.appendChild(dd);
+    }
+    wrap.appendChild(dl); body.appendChild(wrap);
+  }
+}
+
+function asText(){
+  var out="CHESTIONAR PENTRU RECONSTRUCȚIA MAMARĂ\nCompletat la: "+stamp()+"\n\n";
+  var secs=readDoc(), any=false, i, j;
+  for(i=0;i<secs.length;i++){
+    var sec=secs[i], lines=[];
+    for(j=0;j<sec.items.length;j++){
+      if(!sec.items[j].filled) continue;
+      lines.push("  "+sec.items[j].label+": "+answerText(sec.items[j]));
+    }
+    if(lines.length){ any=true; out+=sec.num+". "+sec.title.toUpperCase()+"\n"+lines.join("\n")+"\n\n"; }
+  }
+  if(!any) out+="Formularul nu a fost completat.\n";
+  return out.replace(/\s+$/,"");
+}
+
+function toast(msg){
+  var t=$("toast"); if(!t) return;
+  t.textContent=msg;
+  setTimeout(function(){ if(t.textContent===msg) t.textContent=""; },5000);
+}
+
+/* ---------- the filled record, drawn on canvas ---------- */
+var PW=1240, PH=1754, MG=86, FOOTR=70;
+var FF='"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif';
+var C_INK="#1A1C2B", C_OFF="#99A0B2", C_MUTE="#5F667C", C_ACC="#4A2E68",
+    C_SOFT="#EFE8F6", C_LINE="#CFD4E0";
+
+function makeDoc(){
+  var pages=[], p=null, y=0;
+  function addPage(){
+    var cv=document.createElement("canvas"); cv.width=PW; cv.height=PH;
+    var cx=cv.getContext("2d");
+    cx.fillStyle="#FFFFFF"; cx.fillRect(0,0,PW,PH); cx.textBaseline="top";
+    p={cv:cv,cx:cx}; pages.push(p); y=MG;
+  }
+  function wrapTo(cx,s,maxw){
+    var words=String(s).split(/\s+/), out=[], cur="", i;
+    for(i=0;i<words.length;i++){
+      var t=cur?(cur+" "+words[i]):words[i];
+      if(cx.measureText(t).width<=maxw) cur=t;
+      else{ if(cur) out.push(cur); cur=words[i]; }
+    }
+    if(cur) out.push(cur);
+    return out.length?out:[""];
+  }
+  addPage();
+  var api={
+    pages:pages,
+    room:function(h){ if(y+h>PH-MG-FOOTR){ addPage(); return true; } return false; },
+    gap:function(h){ y+=h; },
+    measure:function(s,o){
+      o=o||{};
+      var size=o.size||22, weight=o.weight||400, ind=o.indent||0;
+      var lh=o.lh||Math.round(size*1.42);
+      p.cx.font=weight+" "+size+"px "+FF;
+      return wrapTo(p.cx,s,PW-2*MG-ind).length*lh+(o.after===undefined?5:o.after);
+    },
+    text:function(s,o){
+      o=o||{};
+      var size=o.size||22, weight=o.weight||400, color=o.color||C_INK;
+      var ind=o.indent||0, lh=o.lh||Math.round(size*1.42);
+      var font=(o.style?o.style+" ":"")+weight+" "+size+"px "+FF;
+      p.cx.font=font;
+      var lines=wrapTo(p.cx,s,PW-2*MG-ind), i;
+      for(i=0;i<lines.length;i++){
+        api.room(lh);
+        p.cx.font=font; p.cx.fillStyle=color;
+        p.cx.fillText(lines[i],MG+ind,y);
+        y+=lh;
+      }
+      y+=(o.after===undefined?5:o.after);
+    },
+    band:function(sub){
+      p.cx.fillStyle=C_ACC; p.cx.fillRect(0,0,PW,168);
+      p.cx.fillStyle="#FFFFFF"; p.cx.font="600 38px "+FF;
+      p.cx.fillText("Chestionar reconstrucție mamară",MG,46);
+      p.cx.fillStyle="#D6C7E6"; p.cx.font="400 22px "+FF;
+      p.cx.fillText(sub,MG,102);
+      y=206;
+    },
+    section:function(num,title){
+      api.room(150);
+      p.cx.fillStyle=C_SOFT; p.cx.fillRect(MG,y,PW-2*MG,44);
+      p.cx.fillStyle=C_ACC; p.cx.font="600 24px "+FF;
+      p.cx.fillText(num+". "+title,MG+14,y+9);
+      y+=58;
+    },
+    rule:function(){
+      api.room(18);
+      p.cx.strokeStyle=C_LINE; p.cx.lineWidth=1;
+      p.cx.beginPath(); p.cx.moveTo(MG,y); p.cx.lineTo(PW-MG,y); p.cx.stroke();
+      y+=16;
+    },
+    footers:function(name){
+      var i;
+      for(i=0;i<pages.length;i++){
+        var cx=pages[i].cx;
+        cx.strokeStyle=C_LINE; cx.lineWidth=1;
+        cx.beginPath(); cx.moveTo(MG,PH-MG-30); cx.lineTo(PW-MG,PH-MG-30); cx.stroke();
+        cx.font="400 17px "+FF; cx.fillStyle=C_MUTE;
+        cx.fillText((name?name+" — ":"")+"chestionar reconstrucție mamară, document generat automat",MG,PH-MG-18);
+        var lab="Pagina "+(i+1)+" din "+pages.length;
+        cx.fillText(lab,PW-MG-cx.measureText(lab).width,PH-MG-18);
+      }
+    }
+  };
+  return api;
+}
+
+function patientName(){
+  var el=$("nume");
+  return el?trim(el.value):"";
+}
+
+function drawAll(){
+  var d=makeDoc(), secs=readDoc(), i, j, total=0, done=0;
+  for(i=0;i<secs.length;i++){
+    for(j=0;j<secs[i].items.length;j++){ total++; if(secs[i].items[j].filled) done++; }
+  }
+  d.band("Răspunsurile pacientei, pentru consultația de chirurgie plastică");
+  d.text("COMPLETAT LA",{size:15,weight:500,color:C_MUTE,after:0});
+  d.text(stamp()+" · "+done+" din "+total+" întrebări completate",{size:22,weight:500,after:12});
+  d.rule();
+
+  for(i=0;i<secs.length;i++){
+    var sec=secs[i];
+    d.section(sec.num,sec.title);
+    for(j=0;j<sec.items.length;j++){
+      var q=sec.items[j];
+      var ans=q.filled?answerText(q):"—";
+      var h=d.measure(q.label,{size:19,weight:500,after:1})+d.measure(ans,{size:22,after:11});
+      d.room(Math.min(h+8,260));
+      d.text(q.label,{size:19,weight:500,color:C_MUTE,after:1});
+      d.text(ans,{size:22,weight:q.filled?500:400,color:q.filled?C_INK:C_OFF,after:11});
+    }
+  }
+
+  d.gap(8); d.room(200); d.rule();
+  d.text("Chestionar informativ pentru consultația de chirurgie plastică. Nu înlocuiește evaluarea medicală. Decizia privind tipul de reconstrucție și momentul ei se ia împreună cu chirurgul oncolog, chirurgul plastician, oncologul medical și radioterapeutul.",
+    {size:17,color:C_MUTE,after:0});
+  d.footers(patientName());
+  return d.pages;
+}
+
+/* ---------- canvas -> JPEG -> PDF, no external library ---------- */
+function canvasJpeg(cv){
+  return new Promise(function(resolve,reject){
+    if(cv.toBlob){
+      cv.toBlob(function(blob){
+        if(!blob){ reject(new Error("nocanvas")); return; }
+        if(blob.arrayBuffer) blob.arrayBuffer().then(function(ab){ resolve(new Uint8Array(ab)); },reject);
+        else{
+          var fr=new FileReader();
+          fr.onload=function(){ resolve(new Uint8Array(fr.result)); };
+          fr.onerror=function(){ reject(new Error("noread")); };
+          fr.readAsArrayBuffer(blob);
+        }
+      },"image/jpeg",0.9);
+    }else{
+      try{
+        var bin=atob(cv.toDataURL("image/jpeg",0.9).split(",")[1]);
+        var u=new Uint8Array(bin.length), i;
+        for(i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+        resolve(u);
+      }catch(err){ reject(err); }
+    }
+  });
+}
+
+function assemblePdf(images){
+  var W=595.28, H=841.89, parts=[], length=0, i;
+  function putBytes(u8){ parts.push(u8); length+=u8.length; }
+  function put(str){
+    var u=new Uint8Array(str.length), k;
+    for(k=0;k<str.length;k++) u[k]=str.charCodeAt(k)&0xFF;
+    putBytes(u);
+  }
+  function pad10(n){ var s=String(n); while(s.length<10) s="0"+s; return s; }
+  var n=images.length, total=2+3*n, offsets=new Array(total+1);
+  put("%PDF-1.4\n");
+  putBytes(new Uint8Array([0x25,0xE2,0xE3,0xCF,0xD3,0x0A]));
+  offsets[1]=length;
+  put("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
+  var kids="";
+  for(i=0;i<n;i++) kids+=(i?" ":"")+(3+3*i)+" 0 R";
+  offsets[2]=length;
+  put("2 0 obj\n<< /Type /Pages /Count "+n+" /Kids ["+kids+"] >>\nendobj\n");
+  for(i=0;i<n;i++){
+    var pObj=3+3*i, cObj=pObj+1, iObj=pObj+2;
+    var stream="q "+W.toFixed(2)+" 0 0 "+H.toFixed(2)+" 0 0 cm /Im0 Do Q\n";
+    offsets[pObj]=length;
+    put(pObj+" 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+W.toFixed(2)+" "+H.toFixed(2)+"]"
+      +" /Resources << /XObject << /Im0 "+iObj+" 0 R >> >> /Contents "+cObj+" 0 R >>\nendobj\n");
+    offsets[cObj]=length;
+    put(cObj+" 0 obj\n<< /Length "+stream.length+" >>\nstream\n"+stream+"endstream\nendobj\n");
+    offsets[iObj]=length;
+    put(iObj+" 0 obj\n<< /Type /XObject /Subtype /Image /Width "+PW+" /Height "+PH
+      +" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "+images[i].length+" >>\nstream\n");
+    putBytes(images[i]);
+    put("\nendstream\nendobj\n");
+  }
+  var xref=length;
+  put("xref\n0 "+(total+1)+"\n0000000000 65535 f \n");
+  for(i=1;i<=total;i++) put(pad10(offsets[i])+" 00000 n \n");
+  put("trailer\n<< /Size "+(total+1)+" /Root 1 0 R >>\nstartxref\n"+xref+"\n%%EOF\n");
+  var out=new Uint8Array(length), at=0;
+  for(i=0;i<parts.length;i++){ out.set(parts[i],at); at+=parts[i].length; }
+  return new Blob([out],{type:"application/pdf"});
+}
+
+function pdfName(){
+  var nm=patientName().replace(/[^A-Za-z0-9ĂÂÎȘȚăâîșț ]/g,"").replace(/\s+/g,"-");
+  var n=new Date();
+  var day=n.getFullYear()+"-"+pad2(n.getMonth()+1)+"-"+pad2(n.getDate());
+  return ("Reconstructie-mamara"+(nm?"-"+nm:"")+"-"+day+".pdf").slice(0,120);
+}
+
+var builtPages=null;
+function makePdfBlob(){
+  var ready;
+  try{ ready=(document.fonts&&document.fonts.ready)?document.fonts.ready:Promise.resolve(); }
+  catch(e){ ready=Promise.resolve(); }
+  return Promise.resolve(ready)["catch"](function(){}).then(function(){
+    builtPages=drawAll();
+    var jobs=[], i;
+    for(i=0;i<builtPages.length;i++) jobs.push(canvasJpeg(builtPages[i].cv));
+    return Promise.all(jobs);
+  }).then(function(images){ return assemblePdf(images); });
+}
+
+/* ---------- saving ---------- */
+var saver=null;
+function findSaver(){
+  if(saver) return Promise.resolve(saver);
+  if(!(window.claude&&typeof window.claude.use==="function")) return Promise.resolve(null);
+  try{
+    return Promise.resolve(window.claude.use("downloads")).then(function(ns){
+      if(ns) saver=ns;
+      return saver;
+    },function(){ return null; });
+  }catch(e){ return Promise.resolve(null); }
+}
+(function poll(n){
+  if(saver||n>20) return;
+  findSaver().then(function(ns){ if(!ns) setTimeout(function(){ poll(n+1); },500); });
+})(0);
+
+function showPages(pages){
+  var box=$("pdfout");
+  if(!box||!pages) return;
+  box.textContent="";
+  var note=document.createElement("p");
+  note.className="pvnote";
+  note.textContent="Salvarea directă nu este disponibilă aici. Apăsați lung pe fiecare pagină de mai jos (pe calculator: clic dreapta) și alegeți „Salvează imaginea”, apoi trimiteți-le medicului.";
+  box.appendChild(note);
+  for(var i=0;i<pages.length;i++){
+    var img=document.createElement("img");
+    img.className="pv";
+    img.alt="Chestionar completat, pagina "+(i+1);
+    try{ img.src=pages[i].cv.toDataURL("image/jpeg",0.9); }catch(e){}
+    box.appendChild(img);
+  }
+  box.hidden=false;
+  try{ box.scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){}
+}
+
+/* ---------- wiring ---------- */
+load();
+render();
+
+document.addEventListener("change",function(ev){
+  if(ev.target&&(ev.target.tagName==="INPUT"||ev.target.tagName==="TEXTAREA")){ save(); render(); }
+});
+document.addEventListener("input",function(ev){
+  if(ev.target&&(ev.target.tagName==="INPUT"||ev.target.tagName==="TEXTAREA")){ save(); render(); }
+});
+
+var ts=$("toSummary");
+if(ts) ts.addEventListener("click",function(){
+  var el=$("summary");
+  if(el){ try{ el.scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){ el.scrollIntoView(); } }
+});
+
+function selectFallback(s){
+  var ta=document.createElement("textarea");
+  ta.value=s; ta.setAttribute("readonly","");
+  ta.style.cssText="position:fixed;left:8px;right:8px;bottom:8px;height:40vh;font:13px monospace;z-index:99";
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  toast("Copierea automată nu e permisă aici. Textul e selectat — apăsați Copiază, apoi atingeți în altă parte.");
+  ta.addEventListener("blur",function(){ if(ta.parentNode) ta.parentNode.removeChild(ta); });
+}
+
+var cp=$("copy");
+if(cp) cp.addEventListener("click",function(){
+  var s=asText();
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(s).then(function(){
+      toast("Textul a fost copiat. Îl puteți lipi într-un mesaj.");
+    },function(){ selectFallback(s); });
+  }else selectFallback(s);
+});
+
+var armed=false, rs=$("reset");
+if(rs) rs.addEventListener("click",function(){
+  if(!armed){
+    armed=true; rs.textContent="Sigur ștergeți tot?";
+    toast("Atingeți din nou pentru a confirma.");
+    setTimeout(function(){ armed=false; rs.textContent="Șterge tot"; },5000);
+    return;
+  }
+  var all=allControls(), i;
+  for(i=0;i<all.length;i++){
+    if(all[i].type==="checkbox"||all[i].type==="radio") all[i].checked=false;
+    else all[i].value="";
+  }
+  try{ localStorage.removeItem(KEY); }catch(e){}
+  var out=$("pdfout"); if(out){ out.hidden=true; out.textContent=""; }
+  armed=false; rs.textContent="Șterge tot"; render();
+  toast("Formularul a fost golit.");
+});
+
+var si=$("showimg");
+if(si) si.addEventListener("click",function(){
+  if(builtPages){ showPages(builtPages); return; }
+  si.disabled=true;
+  makePdfBlob().then(function(){ showPages(builtPages); })["catch"](function(){
+    toast("Paginile nu au putut fi generate.");
+  }).then(function(){ si.disabled=false; });
+});
+
+var pb=$("pdf");
+if(pb) pb.addEventListener("click",function(){
+  if(pb.getAttribute("data-busy")) return;
+  pb.setAttribute("data-busy","1");
+  var was=pb.textContent;
+  pb.textContent="Se pregătește…";
+  builtPages=null;
+  findSaver().then(function(){
+    return makePdfBlob();
+  }).then(function(blob){
+    if(saver){
+      return saver.save({filename:pdfName(),data:blob}).then(function(){
+        toast("Formularul a fost salvat ca PDF. Îl puteți trimite ca atașament.");
+      });
+    }
+    var url=null;
+    try{ url=URL.createObjectURL(blob); }catch(e){}
+    var a=document.createElement("a");
+    if(url&&!window.claude&&("download" in a)){
+      a.href=url; a.download=pdfName(); a.style.display="none";
+      document.body.appendChild(a);
+      try{ a.click(); }catch(e){}
+      setTimeout(function(){
+        if(a.parentNode) a.parentNode.removeChild(a);
+        try{ URL.revokeObjectURL(url); }catch(e){}
+      },8000);
+      var alt=$("altline"); if(alt) alt.hidden=false;
+      toast("Formularul a fost salvat ca PDF, în Descărcări.");
+      return;
+    }
+    var win=url?window.open(url,"_blank"):null;
+    if(win){
+      var alt2=$("altline"); if(alt2) alt2.hidden=false;
+      toast("PDF-ul s-a deschis într-o filă nouă. Salvați-l de acolo.");
+      return;
+    }
+    showPages(builtPages);
+    toast("Formularul completat este afișat mai jos, gata de salvat ca imagini.");
+  })["catch"](function(err){
+    var code=err&&err.code;
+    if(code==="declined") toast("Salvarea a fost anulată.");
+    else if(code==="rate_limited") toast("Încercați din nou peste câteva secunde.");
+    else if(builtPages){ showPages(builtPages); toast("Salvarea directă nu a reușit. Formularul este afișat mai jos."); }
+    else toast("PDF-ul nu a putut fi generat. Folosiți „Copiază textul”.");
+  }).then(function(){
+    pb.removeAttribute("data-busy"); pb.textContent=was;
+  });
+});
+})();
+</script>
+
+</body>
+</html>
